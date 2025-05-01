@@ -59,7 +59,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
   };
 
   const handleAgeCancel = () => {
-    window.location.href = 'https://github.com/Lonxs69';
+    window.location.href = 'https://Google.com';
   };
 
   const fireParticles = Array.from({ length: 20 }).map((_, index) => (

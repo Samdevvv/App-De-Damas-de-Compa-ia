@@ -10,6 +10,16 @@ const Login = ({ setMenu, onLoginSuccess }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+  const [animated, setAnimated] = useState(false);
+
+  useEffect(() => {
+    // Activar animación después de un breve retraso
+    const timer = setTimeout(() => {
+      setAnimated(true);
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   const forbiddenChars = /['";#=/*\\%&_|^<>()[\]-]/;
 
@@ -52,6 +62,7 @@ const Login = ({ setMenu, onLoginSuccess }) => {
     setIsCapsLockOn(e.getModifierState("CapsLock"));
   const handlePasswordBlur = () => setIsCapsLockOn(false);
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+  const handleRememberMeChange = (e) => setRememberMe(e.target.checked);
 
   const validateForm = () => {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
@@ -83,6 +94,7 @@ const Login = ({ setMenu, onLoginSuccess }) => {
       const payload = {
         Email: email.trim(),
         Password: password.trim(),
+        RememberMe: rememberMe
       };
 
       const response = await fetch("https://localhost:7134/api/users/login", {
@@ -110,11 +122,10 @@ const Login = ({ setMenu, onLoginSuccess }) => {
       localStorage.setItem("accessToken", data.AccessToken);
       localStorage.setItem("refreshToken", data.RefreshToken);
 
-      // Assuming the backend returns user data with tipoUsuario
       const userData = {
-        id: data.UserId || 1, // Adjust based on actual response
+        id: data.UserId || 1,
         email: email,
-        tipoUsuario: data.TipoUsuario || "cliente", // Adjust based on actual response
+        tipoUsuario: data.TipoUsuario || "cliente",
       };
       localStorage.setItem("user", JSON.stringify(userData));
       onLoginSuccess(userData);
@@ -151,99 +162,135 @@ const Login = ({ setMenu, onLoginSuccess }) => {
   };
 
   return (
-    <div className="login-right">
-      <form className="login-form" onSubmit={handleSubmit}>
-        <button
-          className="back-button"
-          onClick={() => setMenu("mainpage")}
-          type="button"
-        >
-          <FaArrowLeft size={20} />
-        </button>
-
-        <div className="login-title">
-          <img src={loginImage} alt="Login" className="login-title-image" />
-        </div>
-
-        <div className="input-box">
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={handleEmailChange}
-            className={`form-control ${email ? "filled" : ""}`}
-            disabled={loading}
-          />
-          <label>Correo Electrónico</label>
-          <FaUser className="input-icon" />
-        </div>
-
-        <div className="password-wrapper">
-          <div className="input-box password-box">
-            <input
-              type={showPassword ? "text" : "password"}
-              required
-              value={password}
-              onChange={handlePasswordChange}
-              onKeyUp={handlePasswordKeyUp}
-              onBlur={handlePasswordBlur}
-              className={`form-control ${password ? "filled" : ""}`}
-              disabled={loading}
-          />
-            <label>Contraseña</label>
-            <FaLock className="input-icon" />
-            {isCapsLockOn && (
-              <div className="caps-tooltip">Bloq Mayús activado</div>
-            )}
+    <div className="login-container">
+      <div className="login-right">
+        <form className="login-form" onSubmit={handleSubmit}>
+          {/* Lado izquierdo con logo y mensaje de bienvenida */}
+          <div className="login-left">
+            <button
+              className="back-button"
+              onClick={() => setMenu("mainpage")}
+              type="button"
+              aria-label="Volver"
+            >
+              <FaArrowLeft size={16} />
+            </button>
+            
+            <img src={loginImage} alt="Telo Fundi" className="login-title-image" />
+            
+            <div className="login-welcome">
+              <h2>¡Bienvenido de nuevo!</h2>
+              <p>Inicia sesión para acceder a tu cuenta y descubrir los mejores servicios personalizados para ti.</p>
+            </div>
+            
+            {/* Formas decorativas */}
+            <div className="shape shape-1"></div>
+            <div className="shape shape-2"></div>
+            <div className="shape shape-3"></div>
           </div>
-          <span className="toggle-password" onClick={togglePasswordVisibility}>
-            {showPassword ? <FaEyeSlash /> : <FaEye />}
-          </span>
-        </div>
+          
+          {/* Lado derecho con formulario */}
+          <div className="login-right-form">
+            <div className="form-title">
+              <h2>Iniciar Sesión</h2>
+              <p>Completa los datos para acceder a tu cuenta</p>
+            </div>
 
-        <div className="forgot-password">
-          <button type="button" onClick={() => setMenu("recuperar")}>
-            ¿Olvidaste tu contraseña?
-          </button>
-        </div>
+            <div className="input-box">
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={handleEmailChange}
+                className={`form-control ${email ? "filled" : ""}`}
+                disabled={loading}
+              />
+              <label>Correo Electrónico</label>
+              <FaUser className="input-icon" />
+            </div>
 
-        <div className="registro-button-container">
-          <button
-            type="submit"
-            id="confirm"
-            className="registro-button"
-            disabled={loading}
-          >
-            {loading ? "Cargando..." : "Iniciar Sesión"}
-          </button>
-        </div>
+            <div className="password-wrapper">
+              <div className="input-box password-box">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  required
+                  value={password}
+                  onChange={handlePasswordChange}
+                  onKeyUp={handlePasswordKeyUp}
+                  onBlur={handlePasswordBlur}
+                  className={`form-control ${password ? "filled" : ""}`}
+                  disabled={loading}
+                />
+                <label>Contraseña</label>
+                <FaLock className="input-icon" />
+                {isCapsLockOn && (
+                  <div className="caps-tooltip">Bloq Mayús activado</div>
+                )}
+                <span 
+                  className="toggle-password" 
+                  onClick={togglePasswordVisibility}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </span>
+              </div>
+            </div>
 
-        <div className="login-footer">
-          ¿Aún no tienes cuenta?
-          <button type="button" onClick={() => setMenu("registro")}>
-            ¡Regístrate!
-          </button>
-        </div>
-      </form>
+            <div className="remember-me">
+              <input 
+                type="checkbox" 
+                id="rememberMe" 
+                checked={rememberMe} 
+                onChange={handleRememberMeChange} 
+              />
+              <label htmlFor="rememberMe">Recordarme</label>
+            </div>
 
-      {error && (
-        <div className="registro-modal">
-          <div className="registro-modal-content">
-            <h3>{error.title}</h3>
-            <p>{error.message}</p>
-            <div className="registro-modal-buttons">
-              {error.retry && (
-                <button onClick={retrySubmit} className="registro-modal-button">
-                  Reintentar
-                </button>
-              )}
-              <button onClick={closeModal} className="registro-modal-button">
-                Cerrar
+            <div className="forgot-password">
+              <button type="button" onClick={() => setMenu("recuperar")}>
+                ¿Olvidaste tu contraseña?
+              </button>
+            </div>
+
+            <div className="registro-button-container">
+              <button
+                type="submit"
+                id="confirm"
+                className="registro-button"
+                disabled={loading}
+              >
+                {loading ? "Cargando..." : "Iniciar Sesión"}
+              </button>
+            </div>
+
+            <div className="login-footer">
+              ¿Aún no tienes cuenta?
+              <button type="button" onClick={() => setMenu("registro")}>
+                ¡Regístrate!
               </button>
             </div>
           </div>
-        </div>
-      )}
+        </form>
+
+        {error && (
+          <div className="registro-modal">
+            <div className="registro-modal-content">
+              <h3>{error.title}</h3>
+              <p>{error.message}</p>
+              <div className="registro-modal-buttons">
+                {error.retry && (
+                  <button onClick={retrySubmit} className="registro-modal-button">
+                    Reintentar
+                  </button>
+                )}
+                <button onClick={closeModal} className="registro-modal-button">
+                  Cerrar
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

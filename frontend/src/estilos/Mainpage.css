@@ -4,10 +4,10 @@
 :root {
   --primary-color: #9f2910; /* Naranja mucho más oscuro */
   --secondary-color: #7d2010; /* Una versión aún más oscura del naranja */
-  --dark-color: #0e0e0e; /* Color oscuro para fondos */
-  --darker-color: #060606; /* Color más oscuro para algunos elementos */
+  --dark-color: #000000; /* Color oscuro para fondos */
+  --darker-color: #000000; /* Color más oscuro para algunos elementos */
   --text-light: #f0f0f0; /* Color claro para texto sobre fondos oscuros */
-  --text-dark: #222; /* Color oscuro para texto sobre fondos claros */
+  --text-dark: #000000; /* Color oscuro para texto sobre fondos claros */
   --accent-color: #bd3214; /* Color de acento para algunos elementos */
   --gradient-primary: linear-gradient(to right, var(--primary-color), var(--secondary-color));
 }
@@ -155,7 +155,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle at center, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.9) 100%);
+  background: radial-gradient(circle at center, rgb(0, 0, 0) 0%, rgba(0, 0, 0, 0.9) 100%);
   z-index: 1;
 }
 
@@ -182,7 +182,7 @@ html, body {
   font-size: 3.5rem;
   font-weight: 800;
   margin-bottom: 20px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.938);
   letter-spacing: 1px;
   color: var(--text-light);
 }
@@ -190,7 +190,7 @@ html, body {
 .hero-content p {
   font-size: 1.4rem;
   margin-bottom: 35px;
-  text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 1px 5px rgb(0, 0, 0);
   opacity: 0.9;
   max-width: 700px;
   margin-left: auto;
@@ -208,7 +208,7 @@ html, body {
 .search-box {
   display: flex;
   width: 100%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.842);
   border-radius: 50px;
   overflow: hidden;
   border: 2px solid rgba(255, 255, 255, 0.1);
@@ -220,7 +220,7 @@ html, body {
   padding: 18px 25px;
   border: none;
   font-size: 16px;
-  background-color: rgba(128, 125, 125, 0.9);
+  background-color: rgba(0, 0, 0, 0.918);
   color: var(--text-dark);
   letter-spacing: 0.5px;
 }
@@ -304,7 +304,7 @@ html, body {
   background-color: #1a1a1a;
   border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.719);
   transition: all 0.3s;
   border: 1px solid #2a2a2a;
   height: 100%;
@@ -533,7 +533,7 @@ html, body {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.938);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -547,7 +547,7 @@ html, body {
   max-width: 600px;
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.877);
   animation: slideUp 0.3s;
   border: 1px solid #ffffff !important; /* Borde blanco */
   padding: 12px;
