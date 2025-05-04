@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../estilos/Mainpage.css";
 import "../estilos/AgeVerificationModal.css";
-import heroImage from "../assets/heroimage.webp";
+import heroImage from "../assets/heroimage2.avif";
 import femaleServiceImg from "../assets/scort femenino.webp";
 import transServiceImg from "../assets/scorts trnas.jpg";
 import maleServiceImg from "../assets/scort masculino.jpeg";
@@ -11,10 +11,19 @@ import massageServiceImg from "../assets/masaje.jpg";
 import logoImage from "../assets/logo png.png";
 import '../estilos/Header.css';
 import Header from './Header';
+import { FaSearch, FaTimes } from 'react-icons/fa';
 
 const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
   const [showFiltersModal, setShowFiltersModal] = useState(false);
-  const [showAgeModal, setShowAgeModal] = useState(true);
+  const [showAgeModal, setShowAgeModal] = useState(false);
+
+  // Comprobar si el usuario ya verificó su edad al cargar la página
+  useEffect(() => {
+    const ageVerified = localStorage.getItem('ageVerified');
+    if (!ageVerified) {
+      setShowAgeModal(true);
+    }
+  }, []);
 
   // Desactivar scroll e interactividad del body cuando la modal de edad está abierta
   useEffect(() => {
@@ -55,6 +64,8 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
   };
 
   const handleAgeAccept = () => {
+    // Guardar en localStorage que el usuario ha verificado su edad
+    localStorage.setItem('ageVerified', 'true');
     setShowAgeModal(false);
   };
 
@@ -62,12 +73,12 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
     window.location.href = 'https://Google.com';
   };
 
-  const fireParticles = Array.from({ length: 20 }).map((_, index) => (
+  const fireParticles = Array.from({ length: 30 }).map((_, index) => (
     <div
       key={index}
       className="fire-particle"
       style={{
-        left: `${index % 2 === 0 ? Math.random() * 90 : 90 + Math.random() * 10}%`,
+        left: `${Math.random() * 100}%`,
         animationDelay: `${Math.random() * 3}s`
       }}
     />
@@ -124,6 +135,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
 
   return (
     <div className="page-container">
+      {/* Modal de verificación de edad */}
       {showAgeModal && (
         <div className="age-modal-overlay">
           <div className="age-modal">
@@ -144,13 +156,23 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       )}
 
-      <Header onNavigate={setMenu} userLoggedIn={userLoggedIn} handleLogout={handleLogout} />
-
-      <section className="hero-section" style={{ backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)), url(${heroImage})` }}>
+      {/* Hero Section - MOVIDO ARRIBA DEL HEADER */}
+      <section 
+        className="hero-section" 
+        style={{ 
+          backgroundImage: `url(${heroImage})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }}
+      >
         <div className="hero-overlay"></div>
+        
+        {/* Header con logo flotante */}
+        <Header onNavigate={setMenu} userLoggedIn={userLoggedIn} handleLogout={handleLogout} />
+        
         <div className="hero-content">
           <h1>Donde el fuego se sirve sin filtro.</h1>
-          <p>La mejor selección de escorts, masajes y servicios VIP en toda RD</p>
+          <p>Escorts exclusivas, masajes premium y placer VIP en cada rincón de RD.</p>
           <div className="search-container">
             <div className="search-box">
               <input
@@ -161,16 +183,14 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
                 readOnly
               />
               <button className="search-button" onClick={openFiltersModal}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="11" cy="11" r="8"></circle>
-                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                </svg>
+                <FaSearch  size={20} />
               </button>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Servicios destacados */}
       <section className="featured-services-section">
         <div className="container">
           <div className="section-header">
@@ -196,6 +216,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
+      {/* Todos los servicios */}
       <section className="all-services-section">
         <div className="container">
           <div className="section-header">
@@ -217,6 +238,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
+      {/* Banner promocional */}
       <section className="promo-banner">
         <div className="container">
           <div className="promo-content">
@@ -227,6 +249,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
+      {/* Servicios populares */}
       <section className="popular-services">
         <div className="container">
           <div className="section-header">
@@ -247,16 +270,14 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
+      {/* Modal de filtros */}
       {showFiltersModal && (
         <div className="modal-overlay" onClick={closeFiltersModal}>
           <div className="filters-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Búsqueda avanzada</h3>
               <button className="close-modal" onClick={closeFiltersModal}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
+                <FaTimes size={24} />
               </button>
             </div>
 
@@ -278,30 +299,42 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
                 <label>Ubicación</label>
                 <select className="filter-select">
                   <option value="">Todas las ubicaciones</option>
-                  <option value="Madrid">Madrid</option>
-                  <option value="Barcelona">Barcelona</option>
-                  <option value="Valencia">Valencia</option>
-                  <option value="Sevilla">Sevilla</option>
-                  <option value="Bilbao">Bilbao</option>
+                  <option value="santodomingo">Santo Domingo</option>
+                  <option value="santiago">Santiago</option>
+                  <option value="puntacana">Punta Cana</option>
+                  <option value="lapromana">La Romana</option>
+                  <option value="puertoplata">Puerto Plata</option>
                 </select>
               </div>
 
-              <div className="modal-footer">
-                <button className="apply-filters" onClick={closeFiltersModal}>
-                  Aplicar Filtros
-                </button>
+              <div className="filter-group">
+                <label>Rango de Precios</label>
+                <div className="range-inputs">
+                  <select className="filter-select">
+                    <option value="">Cualquier precio</option>
+                    <option value="economico">Económico</option>
+                    <option value="estandar">Estándar</option>
+                    <option value="premium">Premium</option>
+                    <option value="lujo">Lujo</option>
+                  </select>
+                </div>
               </div>
+
+              <button className="apply-filters" onClick={closeFiltersModal}>
+                Aplicar Filtros
+              </button>
             </div>
           </div>
         </div>
       )}
 
+      {/* Footer */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-main">
             <div className="footer-logo">
               <img src={logoImage} alt="Telo Fundi" className="footer-logo-image" />
-              <p>La mejor plataforma para encontrar compañía</p>
+              <p>La mejor plataforma para encontrar compañía de calidad en toda República Dominicana</p>
             </div>
 
             <div className="footer-links">
@@ -340,7 +373,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
 
           <div className="footer-bottom">
             <p>© 2025 Telo Fundi - Todos los derechos reservados</p>
-            <p className="disclaimer">Acceso solo para mayores de 18 años, Este sitio contiene material para adultos.</p>
+            <p className="disclaimer">Acceso solo para mayores de 18 años. Este sitio contiene material para adultos.</p>
           </div>
         </div>
       </footer>

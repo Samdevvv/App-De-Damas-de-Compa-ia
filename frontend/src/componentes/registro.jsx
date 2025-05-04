@@ -52,24 +52,23 @@ const Registro = ({ setMenu }) => {
     { value: "prefiero_no_decir", label: "Prefiero no decir" },
   ];
 
-  // Efecto para crear partículas de fuego - solo se ejecuta una vez
+  // Para la animación de partículas de fuego
   useEffect(() => {
-    const fireContainer = document.getElementById("registro-fire-particles");
-    if (fireContainer) {
-      createParticles(fireContainer, 25, 15); // Reducido el número de partículas
-    }
+    createFireParticles();
   }, []);
 
-  const createParticles = (container, num, leftSpacing) => {
-    container.innerHTML = ""; // Limpia el contenedor
-    for (let i = 0; i < num; i += 1) {
-      const particle = document.createElement("div");
-      particle.style.left = `calc((100%) * ${i / leftSpacing})`;
-      particle.setAttribute("class", "registro-particle");
-      // Optimizamos la duración y retraso de animación para mejor rendimiento
-      particle.style.animationDelay = (2 * Math.random() + 0.5) + "s";
-      particle.style.animationDuration = (2 * Math.random() + 2) + "s";
-      container.appendChild(particle);
+  const createFireParticles = () => {
+    const fireContainer = document.getElementById("registro-fire-particles");
+    if (fireContainer) {
+      fireContainer.innerHTML = ""; // Limpia el contenedor
+      for (let i = 0; i < 25; i++) {
+        const particle = document.createElement("div");
+        particle.className = "registro-particle";
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.animationDelay = `${Math.random() * 2}s`;
+        particle.style.animationDuration = `${1.5 + Math.random()}s`;
+        fireContainer.appendChild(particle);
+      }
     }
   };
 
@@ -307,285 +306,291 @@ const Registro = ({ setMenu }) => {
     handleSubmit({ preventDefault: () => {} });
   };
 
-  // Renderizado optimizado con secciones condicionales
   return (
     <div className="registro-container">
-      <form
-        className={`registro-form ${formData.userType}-form`}
-        onSubmit={handleSubmit}
-      >
-        <button
-          className="registro-back-button"
-          onClick={() => setMenu("mainpage")}
-          type="button"
-          aria-label="Volver"
-        >
-          <FaArrowLeft size={20} />
-        </button>
-
-        <div className="registro-header">
+      <form className="registro-form" onSubmit={handleSubmit}>
+        {/* Lado derecho con logo (invirtiendo posición respecto al login) */}
+        <div className="registro-logo-side">
+          <button
+            className="registro-back-button"
+            onClick={() => setMenu("mainpage")}
+            type="button"
+            aria-label="Volver"
+          >
+            <FaArrowLeft size={16} />
+          </button>
+          
           <div className="registro-logo-container">
             <img src={loginImage} alt="Logo" className="registro-logo-image" />
           </div>
-          <p className="registro-subtitle">Ingresa tus datos para registrarte</p>
+          
+          <p className="registro-subtitle">Ingresa tus datos para crear tu cuenta en Telo Fundi</p>
+          
+          {/* Formas decorativas */}
+          <div className="registro-shape registro-shape-1"></div>
+          <div className="registro-shape registro-shape-2"></div>
+          <div className="registro-shape registro-shape-3"></div>
         </div>
+        
+        {/* Lado izquierdo con formulario (invirtiendo posición respecto al login) */}
+        <div className="registro-fields-side">
+          <div className="registro-account-container">
+            <label className="registro-account-label">Tipo de cuenta:</label>
+            <div className="registro-toggle">
+              <input
+                type="radio"
+                name="userType"
+                value="cliente"
+                id="sizeCliente"
+                checked={formData.userType === "cliente"}
+                onChange={handleUserTypeChange}
+              />
+              <label htmlFor="sizeCliente">Cliente</label>
 
-        <div className="registro-account-container">
-          <label className="registro-account-label">Tipo de cuenta:</label>
-          <div className="registro-toggle">
-            <input
-              type="radio"
-              name="userType"
-              value="cliente"
-              id="sizeCliente"
-              checked={formData.userType === "cliente"}
-              onChange={handleUserTypeChange}
-            />
-            <label htmlFor="sizeCliente">Cliente</label>
+              <input
+                type="radio"
+                name="userType"
+                value="acompanante"
+                id="sizeAcompanante"
+                checked={formData.userType === "acompanante"}
+                onChange={handleUserTypeChange}
+              />
+              <label htmlFor="sizeAcompanante">Acompañante</label>
 
-            <input
-              type="radio"
-              name="userType"
-              value="acompanante"
-              id="sizeAcompanante"
-              checked={formData.userType === "acompanante"}
-              onChange={handleUserTypeChange}
-            />
-            <label htmlFor="sizeAcompanante">Acompañante</label>
-
-            <input
-              type="radio"
-              name="userType"
-              value="agencia"
-              id="sizeAgencia"
-              checked={formData.userType === "agencia"}
-              onChange={handleUserTypeChange}
-            />
-            <label htmlFor="sizeAgencia">Agencia</label>
-          </div>
-        </div>
-
-        <div className="registro-fields-container">
-          {/* Email - Común para todos */}
-          <div className="registro-input-box">
-            <input
-              type="email"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleInputChange}
-              className={`form-control ${formData.email ? "filled" : ""}`}
-            />
-            <label>Correo Electrónico:</label>
-            <FaEnvelope className="input-icon" aria-hidden="true" />
+              <input
+                type="radio"
+                name="userType"
+                value="agencia"
+                id="sizeAgencia"
+                checked={formData.userType === "agencia"}
+                onChange={handleUserTypeChange}
+              />
+              <label htmlFor="sizeAgencia">Agencia</label>
+            </div>
           </div>
 
-          {/* Campos específicos para CLIENTE */}
-          {formData.userType === "cliente" && (
+          <div className="registro-fields-container">
+            {/* Email - Común para todos */}
             <div className="registro-input-box">
               <input
-                type="text"
-                name="nickname"
-                value={formData.nickname}
+                type="email"
+                name="email"
+                required
+                value={formData.email}
                 onChange={handleInputChange}
-                className={`form-control ${formData.nickname ? "filled" : ""}`}
+                className={`form-control ${formData.email ? "filled" : ""}`}
               />
-              <label>Apodo:</label>
-              <FaUser className="input-icon" aria-hidden="true" />
+              <label>Correo Electrónico</label>
+              <FaEnvelope className="input-icon" aria-hidden="true" />
             </div>
-          )}
 
-          {/* Campos específicos para ACOMPAÑANTE y AGENCIA */}
-          {formData.userType !== "cliente" && (
-            <>
-              {/* Nombre o Nombre Agencia */}
+            {/* Campos específicos para CLIENTE */}
+            {formData.userType === "cliente" && (
               <div className="registro-input-box">
                 <input
                   type="text"
-                  name={formData.userType === "acompanante" ? "nombre" : "nombreAgencia"}
-                  required
-                  value={formData.userType === "acompanante" ? formData.nombre : formData.nombreAgencia}
+                  name="nickname"
+                  value={formData.nickname}
                   onChange={handleInputChange}
-                  className={`form-control ${
-                    (formData.userType === "acompanante" ? formData.nombre : formData.nombreAgencia)
-                      ? "filled"
-                      : ""
-                  }`}
+                  className={`form-control ${formData.nickname ? "filled" : ""}`}
                 />
-                <label>
-                  {formData.userType === "acompanante"
-                    ? "Nombre de Perfil:"
-                    : "Nombre de la Agencia:"}
-                </label>
-                {formData.userType === "acompanante" ? (
-                  <FaUser className="input-icon" aria-hidden="true" />
-                ) : (
-                  <FaBuilding className="input-icon" aria-hidden="true" />
-                )}
+                <label>Apodo</label>
+                <FaUser className="input-icon" aria-hidden="true" />
               </div>
+            )}
 
-              {/* País */}
-              <div className="registro-select-box">
-                <label className="registro-select-label">País:</label>
-                <FaGlobe className="registro-select-icon" aria-hidden="true" />
-                <Select
-                  value={formData.pais}
-                  onChange={(selected) => 
-                    setFormData(prev => ({ ...prev, pais: selected }))
-                  }
-                  options={countries}
-                  placeholder="Seleccione su país"
-                  className="registro-custom-select"
-                  classNamePrefix="select"
-                  menuPortalTarget={document.body}
-                  styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
-                />
-              </div>
-
-              {/* Ciudad */}
-              <div className="registro-input-box">
-                <input
-                  type="text"
-                  name="ciudad"
-                  required={formData.userType === "agencia"}
-                  value={formData.ciudad}
-                  onChange={handleInputChange}
-                  className={`form-control ${formData.ciudad ? "filled" : ""}`}
-                />
-                <label>Ciudad:</label>
-                <FaCity className="input-icon" aria-hidden="true" />
-              </div>
-
-              {/* Campos específicos para ACOMPAÑANTE */}
-              {formData.userType === "acompanante" && (
-                <>
-                  {/* Teléfono */}
-                  <div className="registro-phone-container">
-                    <label className="registro-phone-label">Número de teléfono:</label>
-                    <FaPhoneAlt
-                      className="registro-phone-icon"
-                      aria-hidden="true"
-                    />
-                    <PhoneInput
-                      country={"es"}
-                      value={formData.phone}
-                      onChange={(value) => 
-                        setFormData(prev => ({ ...prev, phone: value }))
-                      }
-                      inputClass="registro-phone-input"
-                      containerClass="registro-phone-wrapper"
-                      buttonClass="registro-phone-dropdown"
-                      dropdownClass="registro-phone-dropdown-list"
-                    />
-                  </div>
-
-                  {/* Género */}
-                  <div className="registro-select-box">
-                    <label className="registro-select-label">Género:</label>
-                    <FaVenusMars
-                      className="registro-select-icon"
-                      aria-hidden="true"
-                    />
-                    <Select
-                      value={formData.genero}
-                      onChange={(selected) => 
-                        setFormData(prev => ({ ...prev, genero: selected }))
-                      }
-                      options={genderOptions}
-                      placeholder="Seleccione su género"
-                      className="registro-custom-select"
-                      classNamePrefix="select"
-                      menuPortalTarget={document.body}
-                      styles={{
-                        menuPortal: (base) => ({ ...base, zIndex: 9999 }),
-                      }}
-                    />
-                  </div>
-
-                  {/* Edad */}
-                  <div className="registro-input-box">
-                    <input
-                      type="number"
-                      name="edad"
-                      required
-                      value={formData.edad}
-                      onChange={handleInputChange}
-                      className={`form-control ${formData.edad ? "filled" : ""}`}
-                      min="18"
-                      max="99"
-                    />
-                    <label>Edad:</label>
+            {/* Campos específicos para ACOMPAÑANTE y AGENCIA */}
+            {formData.userType !== "cliente" && (
+              <>
+                {/* Nombre o Nombre Agencia */}
+                <div className="registro-input-box">
+                  <input
+                    type="text"
+                    name={formData.userType === "acompanante" ? "nombre" : "nombreAgencia"}
+                    required
+                    value={formData.userType === "acompanante" ? formData.nombre : formData.nombreAgencia}
+                    onChange={handleInputChange}
+                    className={`form-control ${
+                      (formData.userType === "acompanante" ? formData.nombre : formData.nombreAgencia)
+                        ? "filled"
+                        : ""
+                    }`}
+                  />
+                  <label>
+                    {formData.userType === "acompanante"
+                      ? "Nombre de Perfil"
+                      : "Nombre de la Agencia"}
+                  </label>
+                  {formData.userType === "acompanante" ? (
                     <FaUser className="input-icon" aria-hidden="true" />
-                  </div>
-                </>
-              )}
+                  ) : (
+                    <FaBuilding className="input-icon" aria-hidden="true" />
+                  )}
+                </div>
 
-              {/* Campos específicos para AGENCIA */}
-              {formData.userType === "agencia" && (
-                <>
-                  {/* Descripción */}
-                  <div className="registro-input-box">
-                    <input
-                      type="text"
-                      name="descripcion"
-                      required
-                      value={formData.descripcion}
-                      onChange={handleInputChange}
-                      className={`form-control ${formData.descripcion ? "filled" : ""}`}
-                    />
-                    <label>Descripción:</label>
-                    <FaInfoCircle className="input-icon" aria-hidden="true" />
-                  </div>
+                {/* País */}
+                <div className="registro-select-box">
+                  <label className="registro-select-label">País</label>
+                  <FaGlobe className="registro-select-icon" aria-hidden="true" />
+                  <Select
+                    value={formData.pais}
+                    onChange={(selected) => 
+                      setFormData(prev => ({ ...prev, pais: selected }))
+                    }
+                    options={countries}
+                    placeholder="Seleccione su país"
+                    className="registro-custom-select"
+                    classNamePrefix="select"
+                    menuPortalTarget={document.body}
+                    styles={{ menuPortal: (base) => ({ ...base, zIndex: 9999 }) }}
+                  />
+                </div>
 
-                  {/* Dirección */}
-                  <div className="registro-input-box">
-                    <input
-                      type="text"
-                      name="direccion"
-                      required
-                      value={formData.direccion}
-                      onChange={handleInputChange}
-                      className={`form-control ${formData.direccion ? "filled" : ""}`}
-                    />
-                    <label>Dirección:</label>
-                    <FaMapMarkerAlt className="input-icon" aria-hidden="true" />
-                  </div>
-                </>
-              )}
-            </>
-          )}
+                {/* Ciudad */}
+                <div className="registro-input-box">
+                  <input
+                    type="text"
+                    name="ciudad"
+                    required={formData.userType === "agencia"}
+                    value={formData.ciudad}
+                    onChange={handleInputChange}
+                    className={`form-control ${formData.ciudad ? "filled" : ""}`}
+                  />
+                  <label>Ciudad</label>
+                  <FaCity className="input-icon" aria-hidden="true" />
+                </div>
 
-          {/* Password - Común para todos */}
-          <div className="registro-input-box">
-            <input
-              type="password"
-              name="password"
-              required
-              value={formData.password}
-              onChange={handleInputChange}
-              className={`form-control ${formData.password ? "filled" : ""}`}
-            />
-            <label>Contraseña:</label>
-            <FaLock className="input-icon" aria-hidden="true" />
-          </div>
+                {/* Campos específicos para ACOMPAÑANTE */}
+                {formData.userType === "acompanante" && (
+                  <>
+                    {/* Teléfono */}
+                    <div className="registro-phone-container">
+                      <label className="registro-phone-label">Número de teléfono</label>
+                      <FaPhoneAlt
+                        className="registro-phone-icon"
+                        aria-hidden="true"
+                      />
+                      <PhoneInput
+                        country={"es"}
+                        value={formData.phone}
+                        onChange={(value) => 
+                          setFormData(prev => ({ ...prev, phone: value }))
+                        }
+                        inputClass="registro-phone-input"
+                        containerClass="registro-phone-wrapper"
+                        buttonClass="registro-phone-dropdown"
+                        dropdownClass="registro-phone-dropdown-list"
+                      />
+                    </div>
 
-          {/* Botón de Registro */}
-          <div className="registro-fire-container">
-            <div id="registro-fire-particles"></div>
-            <button
-              type="submit"
-              className="registro-fire-button"
-              disabled={loading}
-            >
-              {loading ? "Registrando..." : "Regístrate"}
-            </button>
-          </div>
+                    {/* Género */}
+                    <div className="registro-select-box">
+                      <label className="registro-select-label">Género</label>
+                      <FaVenusMars
+                        className="registro-select-icon"
+                        aria-hidden="true"
+                      />
+                      <Select
+                        value={formData.genero}
+                        onChange={(selected) => 
+                          setFormData(prev => ({ ...prev, genero: selected }))
+                        }
+                        options={genderOptions}
+                        placeholder="Seleccione su género"
+                        className="registro-custom-select"
+                        classNamePrefix="select"
+                        menuPortalTarget={document.body}
+                        styles={{
+                          menuPortal: (base) => ({ ...base, zIndex: 9999 }),
+                        }}
+                      />
+                    </div>
 
-          <div className="registro-footer">
-            ¿Ya tienes cuenta?
-            <button type="button" onClick={() => setMenu("login")}>
-              Inicia Sesión
-            </button>
+                    {/* Edad */}
+                    <div className="registro-input-box">
+                      <input
+                        type="number"
+                        name="edad"
+                        required
+                        value={formData.edad}
+                        onChange={handleInputChange}
+                        className={`form-control ${formData.edad ? "filled" : ""}`}
+                        min="18"
+                        max="99"
+                      />
+                      <label>Edad</label>
+                      <FaUser className="input-icon" aria-hidden="true" />
+                    </div>
+                  </>
+                )}
+
+                {/* Campos específicos para AGENCIA */}
+                {formData.userType === "agencia" && (
+                  <>
+                    {/* Descripción */}
+                    <div className="registro-input-box">
+                      <input
+                        type="text"
+                        name="descripcion"
+                        required
+                        value={formData.descripcion}
+                        onChange={handleInputChange}
+                        className={`form-control ${formData.descripcion ? "filled" : ""}`}
+                      />
+                      <label>Descripción</label>
+                      <FaInfoCircle className="input-icon" aria-hidden="true" />
+                    </div>
+
+                    {/* Dirección */}
+                    <div className="registro-input-box">
+                      <input
+                        type="text"
+                        name="direccion"
+                        required
+                        value={formData.direccion}
+                        onChange={handleInputChange}
+                        className={`form-control ${formData.direccion ? "filled" : ""}`}
+                      />
+                      <label>Dirección</label>
+                      <FaMapMarkerAlt className="input-icon" aria-hidden="true" />
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+
+            {/* Password - Común para todos */}
+            <div className="registro-input-box">
+              <input
+                type="password"
+                name="password"
+                required
+                value={formData.password}
+                onChange={handleInputChange}
+                className={`form-control ${formData.password ? "filled" : ""}`}
+              />
+              <label>Contraseña</label>
+              <FaLock className="input-icon" aria-hidden="true" />
+            </div>
+
+            {/* Botón de Registro con efecto de fuego */}
+            <div className="registro-fire-container">
+              <div id="registro-fire-particles"></div>
+              <button
+                type="submit"
+                className="registro-fire-button"
+                disabled={loading}
+              >
+                {loading ? "Registrando..." : "Regístrate"}
+              </button>
+            </div>
+
+            <div className="registro-footer">
+              ¿Ya tienes cuenta?
+              <button type="button" onClick={() => setMenu("login")}>
+                Inicia Sesión
+              </button>
+            </div>
           </div>
         </div>
       </form>

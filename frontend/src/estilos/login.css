@@ -3,6 +3,8 @@
 body {
   font-family: 'Inter', sans-serif;
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 /* Contenedor principal completamente transparente */
@@ -26,13 +28,14 @@ body {
   justify-content: center;
   align-items: center;
   pointer-events: none;
+  padding: 15px;
 }
 
 /* Card principal con dos columnas */
 .login-form {
   display: flex;
   max-width: 800px;
-  width: 90%;
+  width: 100%;
   pointer-events: auto;
   border-radius: 20px;
   overflow: hidden;
@@ -54,7 +57,7 @@ body {
 /* Columna izquierda con logo y fondo de color */
 .login-left {
   width: 45%;
-  background: linear-gradient(135deg, rgba(255, 69, 0, 0.95) 0%, rgba(180, 50, 20, 0.98) 100%);
+  background: linear-gradient(135deg, rgba(165, 30, 30, 0.95) 0%, rgba(79, 79, 79, 0.98) 100%);
   padding: 3rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -86,13 +89,14 @@ body {
   margin: 0 auto;
 }
 
+/* Logo más grande, igual que en olvidar contraseña */
 .login-title-image {
-  width: 100%;
-  max-width: 320px;
-  height: auto;
-  max-height: 180px;
+  width: 320px;
+  height: 320px;
+  max-width: 100%;
+  max-height: none;
   object-fit: contain;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   animation: logoFloat 6s ease-in-out infinite;
 }
 
@@ -497,66 +501,518 @@ body {
   transform: translateY(0);
 }
 
-/* Media queries para responsividad */
+/* Media queries para responsividad - MEJORADOS */
 @media (min-width: 1600px) {
   .login-form {
     max-width: 900px;
   }
   .login-title-image {
     max-width: 350px;
-    max-height: 200px;
+    max-height: none;
   }
 }
 
-@media (max-width: 768px) {
+/* Desktop y tablets grandes */
+@media (max-width: 1024px) {
   .login-form {
-    flex-direction: column;
-    max-width: 400px;
+    max-width: 700px;
   }
   .login-left, .login-right-form {
-    width: 100%;
-    padding: 2rem 1.5rem;
+    padding: 2.5rem 1.5rem;
   }
+  .login-title-image {
+    width: 300px;
+    height: 300px;
+  }
+  .login-welcome h2 {
+    font-size: 1.6rem;
+  }
+  .form-title h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+  .login-right {
+    padding: 15px;
+    align-items: center;
+  }
+  
+  .login-form {
+    flex-direction: column;
+    max-width: 450px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  .login-left, .login-right-form {
+    width: 100%;
+    padding: 1.5rem;
+  }
+  
   .login-left {
     padding-bottom: 1rem;
   }
+  
   .login-right-form {
-    padding-top: 1.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.5rem;
   }
+  
   .login-welcome h2 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
   }
-  .form-title h2 {
-    font-size: 1.5rem;
-  }
-  .login-title-image {
-    max-width: 280px;
-    max-height: 160px;
-    margin-bottom: 1rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .login-form {
-    max-width: 320px;
-  }
-  .login-left, .login-right-form {
-    padding: 1.5rem 1.2rem;
-  }
-  .login-welcome h2 {
-    font-size: 1.3rem;
-  }
+  
   .login-welcome p {
     font-size: 0.85rem;
+    max-width: 95%;
+    margin-bottom: 0;
   }
+  
+  .form-title {
+    margin-bottom: 1.25rem;
+  }
+  
   .form-title h2 {
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
   }
+  
   .form-title p {
     font-size: 0.8rem;
   }
+  
   .login-title-image {
-    max-width: 240px;
-    max-height: 140px;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .shape-1 {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .shape-2 {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .shape-3 {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .input-box {
+    height: 45px;
+    margin: 12px 0;
+  }
+}
+
+/* Ajustes específicos para móviles - ULTRA COMPACTO */
+@media (max-width: 576px) {
+  .login-container {
+    align-items: flex-start;
+  }
+  
+  .login-right {
+    padding: 10px;
+    align-items: flex-start;
+    padding-top: 20px;
+    height: 100%;
+  }
+  
+  .login-form {
+    max-width: 100%;
+    width: 95%;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    margin-bottom: 0;
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+  
+  /* Columna izquierda muy compacta */
+  .login-left {
+    padding: 1rem 0.75rem;
+  }
+  
+  .login-title-image {
+    width: 150px;  /* Logo mucho más pequeño */
+    height: 150px;
+    margin-bottom: 0;
+  }
+  
+  .login-welcome h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+  }
+  
+  .login-welcome p {
+    font-size: 0.8rem;
+    line-height: 1.3;
+    margin-bottom: 0;
+  }
+  
+  /* Formulario compacto */
+  .login-right-form {
+    padding: 1rem 0.75rem;
+  }
+  
+  .form-title {
+    margin-bottom: 1rem;
+  }
+  
+  .form-title h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .form-title p {
+    font-size: 0.75rem;
+  }
+  
+  .input-box {
+    height: 40px;
+    margin: 10px 0;
+  }
+  
+  .input-box input {
+    font-size: 0.85rem;
+    padding-left: 35px;
+  }
+  
+  .input-box label {
+    font-size: 0.8rem;
+    left: 35px;
+  }
+  
+  .input-box .input-icon {
+    font-size: 0.9rem;
+  }
+  
+  .remember-me, .forgot-password {
+    margin-bottom: 10px;
+    margin-top: -5px;
+  }
+  
+  .remember-me label, .forgot-password button {
+    font-size: 0.7rem;
+  }
+  
+  .registro-button-container {
+    margin: 10px 0;
+  }
+  
+  .registro-button {
+    padding: 10px 0;
+    font-size: 0.9rem;
+  }
+  
+  .login-footer {
+    margin-top: 1rem;
+    font-size: 0.8rem;
+  }
+  
+  /* Modal más pequeño */
+  .registro-modal-content {
+    max-width: 90%;
+    width: 280px;
+    padding: 18px;
+  }
+  
+  .registro-modal-content h3 {
+    font-size: 1.1rem;
+  }
+  
+  .registro-modal-content p {
+    font-size: 0.85rem;
+    margin-bottom: 15px;
+  }
+  
+  .registro-modal-button {
+    padding: 8px 15px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Móviles muy pequeños - versión ultra compacta */
+@media (max-width: 380px) {
+  .login-container {
+    align-items: flex-start;
+  }
+  
+  .login-right {
+    padding: 8px;
+    padding-top: 10px;
+  }
+  
+  .login-form {
+    width: 100%;
+    margin: 0;
+    border-radius: 10px;
+  }
+  
+  /* Columna izquierda mínima */
+  .login-left {
+    padding: 0.8rem 0.6rem;
+  }
+  
+  .login-title-image {
+    width: 130px;  /* Logo aún más pequeño */
+    height: 130px;
+    margin-bottom: 0;
+  }
+  
+  .login-welcome h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .login-welcome p {
+    font-size: 0.75rem;
+    line-height: 1.2;
+    max-width: 100%;
+  }
+  
+  /* Ocultar formas decorativas en pantallas muy pequeñas */
+  .shape-2, .shape-3 {
+    display: none;
+  }
+  
+  .shape-1 {
+    width: 40px;
+    height: 40px;
+  }
+  
+  /* Formulario ultra compacto */
+  .login-right-form {
+    padding: 0.8rem 0.6rem;
+  }
+  
+  .form-title {
+    margin-bottom: 0.8rem;
+  }
+  
+  .form-title h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.1rem;
+  }
+  
+  .form-title p {
+    font-size: 0.7rem;
+  }
+  
+  .input-box {
+    height: 38px;
+    margin: 8px 0;
+  }
+  
+  .input-box input {
+    font-size: 0.8rem;
+    padding-left: 30px;
+    border-radius: 10px;
+  }
+  
+  .input-box label {
+    font-size: 0.75rem;
+    left: 30px;
+  }
+  
+  .input-box .input-icon {
+    font-size: 0.8rem;
+    left: 10px;
+  }
+  
+  .remember-me, .forgot-password {
+    margin-bottom: 8px;
+    margin-top: -4px;
+  }
+  
+  .remember-me label, .forgot-password button {
+    font-size: 0.65rem;
+  }
+  
+  .registro-button-container {
+    margin: 8px 0;
+  }
+  
+  .registro-button {
+    padding: 8px 0;
+    font-size: 0.85rem;
+    border-radius: 10px;
+  }
+  
+  .login-footer {
+    margin-top: 0.8rem;
+    font-size: 0.75rem;
+  }
+  
+  /* Modal mínimo */
+  .registro-modal-content {
+    width: 250px;
+    padding: 15px;
+  }
+  
+  .registro-modal-content h3 {
+    font-size: 1rem;
+  }
+  
+  .registro-modal-content p {
+    font-size: 0.8rem;
+    margin-bottom: 12px;
+  }
+  
+  .registro-modal-buttons {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .registro-modal-button {
+    width: 100%;
+    padding: 7px 0;
+    font-size: 0.75rem;
+  }
+}
+
+/* Orientación horizontal en dispositivos pequeños */
+@media (max-height: 600px) {
+  .login-container {
+    align-items: flex-start;
+  }
+  
+  .login-right {
+    padding-top: 10px;
+  }
+  
+  .login-form {
+    max-height: 95vh;
+    overflow-y: auto;
+  }
+}
+
+/* Ajustes específicos para pantallas muy pequeñas en altura */
+@media (max-height: 480px) {
+  .login-right {
+    padding: 5px;
+  }
+  
+  .login-form {
+    max-height: 98vh;
+  }
+  
+  .login-title-image {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .login-welcome h2 {
+    font-size: 1rem;
+  }
+  
+  .login-welcome p {
+    display: none; /* Ocultar párrafo en pantallas muy pequeñas */
+  }
+}
+
+/* Ajustes específicos para iPhones SE y dispositivos muy pequeños */
+@media (max-width: 350px) and (max-height: 570px) {
+  .login-container {
+    align-items: flex-start;
+  }
+  
+  .login-right {
+    padding-top: 5px;
+  }
+  
+  .login-form {
+    border-radius: 8px;
+  }
+  
+  .login-left {
+    padding: 0.6rem 0.5rem;
+  }
+  
+  .login-title-image {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .login-welcome h2 {
+    font-size: 0.9rem;
+    margin-bottom: 0;
+  }
+  
+  .login-welcome p {
+    display: none;
+  }
+  
+  .shape {
+    display: none;
+  }
+  
+  .login-right-form {
+    padding: 0.6rem 0.5rem;
+  }
+  
+  .form-title h2 {
+    font-size: 0.9rem;
+  }
+  
+  .form-title p {
+    font-size: 0.65rem;
+  }
+  
+  .input-box {
+    height: 35px;
+    margin: 6px 0;
+  }
+  
+  .remember-me, .forgot-password {
+    margin-bottom: 6px;
+  }
+  
+  .login-footer {
+    margin-top: 0.6rem;
+  }
+}
+
+/* Ajustes para pantallas táctiles */
+@media (hover: none) {
+  .registro-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .back-button:hover {
+    transform: none;
+    background: none;
+  }
+  
+  .registro-modal-button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  /* Aumentar áreas táctiles en móviles */
+  .back-button {
+    padding: 12px;
+  }
+  
+  .toggle-password {
+    padding: 10px;
+    right: 5px;
+  }
+  
+  /* Fix para inputs en dispositivos móviles */
+  .input-box input {
+    font-size: 16px; /* Tamaño mínimo para evitar zoom en iOS */
+  }
+  
+  .input-box input, .login-right-form button {
+    -webkit-tap-highlight-color: transparent; /* Eliminar highlight al tocar */
   }
 }
