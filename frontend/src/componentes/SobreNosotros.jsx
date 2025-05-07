@@ -190,7 +190,7 @@ const SobreNosotros = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
-      {/* Footer */}
+      {/* Footer - adaptado para móviles */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-main">
@@ -198,15 +198,39 @@ const SobreNosotros = ({ setMenu, userLoggedIn, handleLogout }) => {
               <img src={logoImage} alt="Telo Fundi" className="footer-logo-image" />
               <p>La mejor plataforma para encontrar compañía de calidad en toda República Dominicana</p>
             </div>
+
             <div className="footer-links">
+              <div className="footer-links-column">
+                <h4>Categorías</h4>
+                <ul>
+                  <li><a href="#">Escorts Femeninas</a></li>
+                  <li><a href="#">Trans y Travestis</a></li>
+                  <li><a href="#">Escorts Masculinos</a></li>
+                  <li><a href="#">Servicios VIP</a></li>
+                  <li><a href="#">Masajes</a></li>
+                </ul>
+              </div>
+
+              <div className="footer-links-column">
+                <h4>Para Anunciantes</h4>
+                <ul>
+                  <li><a href="#">Publicar Anuncio</a></li>
+                  <li><a href="#">Planes Premium</a></li>
+                  <li><a href="#">Verificación</a></li>
+                </ul>
+              </div>
+
               <div className="footer-links-column">
                 <h4>Información</h4>
                 <ul>
-                  <li><a href="#" onClick={() => setMenu('terminos')}>Términos y Condiciones</a></li>
+                  <li><a href="#">Términos y Condiciones</a></li>
+                  <li><a href="#">Cookies</a></li>
+                  <li><a href="#">Contacto</a></li>
                 </ul>
               </div>
             </div>
           </div>
+
           <div className="footer-bottom">
             <p>© 2025 Telo Fundi - Todos los derechos reservados</p>
             <p className="disclaimer">Acceso solo para mayores de 18 años. Este sitio contiene material para adultos.</p>

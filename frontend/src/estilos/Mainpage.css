@@ -8,8 +8,9 @@
   --darker-color: #000000; /* Color más oscuro para algunos elementos */
   --text-light: #f0f0f0; /* Color claro para texto sobre fondos oscuros */
   --text-dark: #000000; /* Color oscuro para texto sobre fondos claros */
-  --accent-color: #701d0a; /* Color de acento para algunos elementos */
-  --gradient-primary: linear-gradient(to right, #1c0e0a, #581703); /* Gradient más oscuro */
+  --accent-color: #b63a1e; /* Color de acento para algunos elementos */
+  --gradient-primary: linear-gradient(to right, #c25537, #ac4526); /* Gradient más oscuro */
+  --prncipal-color:  #d35032;
 }
 * {
   margin: 0; 
@@ -634,9 +635,9 @@ html, body {
 .services-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px; /* Reducido de 15px */
-  margin-top: 25px; /* Reducido de 30px */
-  justify-content: center; /* Centrar tags en móviles */
+  gap: 19px; /* Reducido de 15px */
+  margin-top: 25px; 
+  justify-content: center; 
 }
 
 .service-tag {
@@ -1437,4 +1438,14 @@ html, body {
     width: 110px !important;
     height: 110px !important;
   }
+}
+
+.service-tag{
+  width: 80px !important;
+  padding-right: 21px !important;
+}
+ 
+#sasa{
+  padding-right: 22px !important;
+
 }

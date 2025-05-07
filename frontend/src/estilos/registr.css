@@ -50,8 +50,8 @@ body {
 /* Columna derecha con logo y fondo de color - En el lado derecho para registro */
 .registro-logo-side {
   width: 40%;
-  background: linear-gradient(135deg, rgba(165, 30, 30, 0.95) 0%, rgba(79, 79, 79, 0.98) 100%);
-  padding: 3rem 1.5rem;
+  background: #962614; 
+    padding: 3rem 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

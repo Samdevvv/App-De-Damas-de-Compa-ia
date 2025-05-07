@@ -35,7 +35,7 @@ html, body {
 /* About Section */
 .about-section {
   padding: 100px 0;
-  background: #31110b;
+  background: #661c10;
   position: relative;
   overflow: hidden;
 }
@@ -126,8 +126,8 @@ html, body {
   transform: translateX(-50%);
   width: 60px;
   height: 4px;
-  background: var(--gradient-primary);
-  border-radius: 2px;
+  background: #661c10;
+    border-radius: 2px;
 }
 
 .services-grid {
@@ -164,7 +164,7 @@ html, body {
 /* Contact Section */
 .contact-section {
   padding: 80px 0;
-  background: #31110b;
+  background: #661c10;
   position: relative;
 }
 
@@ -184,7 +184,7 @@ html, body {
   transform: translateX(-50%);
   width: 60px;
   height: 4px;
-  background: var(--secondary-color);
+background: #661c10;
   border-radius: 2px;
 }
 
@@ -585,4 +585,17 @@ html, body {
 .footer-logo-image{
   width: 90px !important;
   height: 100px !important;
+}
+
+@media screen and (min-width: 1024px) {
+  .footer-logo-image{
+    width: 290px !important;
+   height: 210px !important;
+   position: relative;
+   left: -30px;
+   
+  }
+  
+
+
 }

@@ -9,7 +9,7 @@
 }
 
 html, body {
-  background-color: var(--dark-color);
+  background-color: var(--prncipal-color);
   min-height: 100vh;
   width: 100%;
   margin: 0;
@@ -43,7 +43,7 @@ html, body {
   text-align: center;
   color: white;
   overflow: hidden;
-  background: #e64a19; /* Lighter orange shade for a brighter look */
+  background: #ff5724; /* Lighter orange shade for a brighter look */
 }
 
 .hero-overlay {
@@ -61,6 +61,7 @@ html, body {
   z-index: 2;
   position: relative;
   animation: fadeUp 1.2s ease-out;
+  
 }
 
 @keyframes fadeUp {
@@ -94,7 +95,6 @@ html, body {
   transform: translateX(-50%);
   width: 120px;
   height: 2px;
-  background: #4e4e4e;
   margin-bottom: 10px;
 }
 
@@ -231,7 +231,6 @@ html, body {
   left: 0;
   width: 60px;
   height: 4px;
-  background: var(--gradient-primary);
   border-radius: 2px;
 }
 
@@ -560,4 +559,15 @@ html, body {
   .hero-content p {
     font-size: 0.9rem;
   }
+}@media screen and (min-width: 1024px) {
+  .footer-logo-image{
+    width: 290px !important;
+   height: 210px !important;
+   position: relative;
+   left: -30px;
+   
+  }
+  
+
+
 }
