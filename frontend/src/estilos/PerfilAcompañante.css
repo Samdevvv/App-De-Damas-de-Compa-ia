@@ -1,76 +1,81 @@
-/* Importando fuentes */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
-
-/* Variables de colores - Esquema oscuro con naranja oscuro */
+/* IG-Style Profile CSS */
 :root {
-  --primary-color: #9f2910; /* Naranja oscuro */
-  --secondary-color: #7d2010; /* Versión más oscura del naranja */
-  --accent-color: #bd3214; /* Color de acento */
-  --dark-bg: #000000; /* Fondo oscuro */
-  --darker-bg: #0a0a0a; /* Fondo más oscuro para contraste */
-  --dark-card: #111111; /* Color para tarjetas */
-  --text-light: #f0f0f0; /* Texto claro */
-  --text-muted: #aaaaaa; /* Texto con menos énfasis */
-  --border-color: #222222; /* Color de bordes */
-  --gradient-primary: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  --verified-color: #28a745; /* Verde para verificado */
-  --unverified-color: #dc3545; /* Rojo para no verificado */
-  --whatsapp-color: #25D366; /* Verde de WhatsApp */
+  --dark-bg: #121212;
+  --dark-card: #242424;
+  --dark-card-hover: #2a2a2a;
+  --darker-bg: #1a1a1a;
+  --border-color: #303030;
+  --text-light: #ffffff;
+  --text-muted: #b0b0b0;
+  --primary-color: #fd5e53;
+  --primary-color-light: #ff7467;
+  --verified-color: #00c755;
+  --unverified-color: #fd5e53;
+  --whatsapp-color: #00c755;
+  --instagram-color: #E1306C;
+  --gradient-primary: linear-gradient(45deg, #fd5e53, #fd237d);
+  --shadow-light: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --shadow-medium: 0 8px 24px rgba(0, 0, 0, 0.2);
+  --shadow-heavy: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
-/* Estilos generales */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', 'Poppins', Arial, sans-serif;
-}
-
-html, body, #root {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
-}
-
-body {
-  background-color: var(--dark-bg);
+/* Loading Indicator */
+.loading-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
   color: var(--text-light);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+  font-size: 1.2rem;
+  background: var(--dark-card);
+  border-radius: 10px;
+  padding: 30px;
+  box-shadow: var(--shadow-medium);
 }
 
-/* Contenedor principal del perfil */
-.perfil-container {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 50px);
-  width: 100%;
-  background-color: var(--dark-bg);
+/* Back Button */
+.back-button-container {
+  padding: 15px 20px 0;
+  position: relative;
+  z-index: 1000;
 }
 
-.perfil-content {
-  flex: 1;
+.btn-back-to-home {
   display: flex;
-  flex-direction: column;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-  width: 100%;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 15px;
+  background: var(--dark-card);
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: fit-content;
 }
 
-/* Cabecera del perfil */
-.perfil-header {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 30px;
-  padding: 20px;
+.btn-back-to-home:hover {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateX(-5px);
+}
+
+/* Header Card - Instagram Style */
+.perfil-header-card {
   background-color: var(--dark-card);
   border-radius: 15px;
-  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  margin-bottom: 30px;
+  box-shadow: var(--shadow-medium);
   border: 1px solid var(--border-color);
+}
+
+.perfil-header-top {
+  display: flex;
+  padding: 25px;
+  gap: 30px;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .perfil-foto-container {
@@ -78,48 +83,42 @@ body {
 }
 
 .perfil-foto {
-  width: 120px;
-  height: 120px;
+  width: 150px;
+  height: 150px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid var(--primary-color);
+  border: 4px solid var(--primary-color);
   box-shadow: 0 10px 20px rgba(159, 41, 16, 0.2);
 }
 
-.perfil-info-header {
+.perfil-header-info {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
 }
 
-.perfil-name-buttons {
+.perfil-name-verification {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.perfil-name-buttons h1 {
-  font-size: 1.8rem;
+.perfil-name-verification h1 {
+  font-size: 2rem;
   font-weight: 700;
   color: var(--text-light);
+  margin: 0;
 }
 
 .perfil-verification {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 0.9rem;
-  margin-top: 5px;
-}
-
-.perfil-verification span {
-  color: var(--text-light);
-}
-
-.agencia-verificadora {
-  color: var(--text-muted);
-  font-style: italic;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 5px 10px;
+  border-radius: 20px;
 }
 
 .verified-icon {
@@ -130,451 +129,474 @@ body {
   color: var(--unverified-color);
 }
 
-.perfil-contact-icons {
+/* Stats Row - Instagram Style */
+.perfil-stats {
   display: flex;
-  gap: 12px;
-  margin-top: 5px;
+  gap: 30px;
+  margin: 10px 0;
 }
 
-.contact-icon {
-  font-size: 1.5rem;
-  transition: transform 0.3s ease;
-}
-
-.contact-icon:hover {
-  transform: scale(1.15);
-}
-
-.contact-icon.instagram {
-  color: #E1306C;
-}
-
-.contact-icon.whatsapp {
-  color: var(--whatsapp-color);
-}
-
-.perfil-action-buttons {
+.perfil-stat-item {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  align-items: center;
 }
 
-.btn-editar-perfil,
-.btn-ver-perfil {
-  padding: 8px 16px;
-  border-radius: 25px;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 0.85rem;
-  transition: all 0.3s ease;
-}
-
-.btn-ver-perfil {
-  background: var(--gradient-primary);
-  color: white;
-}
-
-.btn-editar-perfil {
-  background-color: transparent;
-  border: 1px solid var(--text-light);
+.perfil-stat-item strong {
+  font-size: 1.2rem;
   color: var(--text-light);
 }
 
-.btn-editar-perfil:hover,
-.btn-ver-perfil:hover {
-  transform: translateY(-2px);
+.perfil-stat-item span {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* Contact Buttons */
+.perfil-contact-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.btn-contact {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-contact.whatsapp {
+  background-color: var(--whatsapp-color);
+  color: white;
+}
+
+.btn-contact.instagram {
+  background-color: var(--instagram-color);
+  color: white;
+}
+
+.btn-contact:hover {
+  transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.perfil-ubicacion {
+/* Profile Details Section */
+.perfil-header-details {
+  padding: 25px;
+}
+
+.perfil-status-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.perfil-badge {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.perfil-datos-rapidos {
-  display: flex;
-  gap: 15px;
-  margin-top: 5px;
-}
-
-.perfil-datos-rapidos span {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  color: var(--text-light);
-  font-size: 0.9rem;
-}
-
-/* Pestañas del perfil */
-.perfil-tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border-color);
-  margin-bottom: 20px;
-  overflow-x: auto;
-}
-
-.perfil-tab {
-  padding: 12px 20px;
-  background-color: transparent;
-  border: none;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  white-space: nowrap;
-}
-
-.perfil-tab.active {
-  color: var(--primary-color);
-}
-
-.perfil-tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: var(--primary-color);
-}
-
-.perfil-tab:hover {
-  color: var(--primary-color);
-}
-
-/* Contenido de las pestañas */
-.perfil-tab-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
-/* Sección de información */
-.perfil-informacion {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.perfil-seccion {
-  background-color: var(--dark-card);
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-color);
-}
-
-.perfil-seccion h3 {
-  margin-bottom: 12px;
-  color: var(--text-light);
-  font-size: 1.1rem;
-  font-weight: 600;
-  position: relative;
-  padding-bottom: 6px;
-}
-
-.perfil-seccion h3::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 30px;
-  height: 2px;
-  background: var(--gradient-primary);
-}
-
-.perfil-seccion p {
-  color: var(--text-muted);
-  line-height: 1.6;
-  font-size: 0.95rem;
-}
-
-
-.perfil-detalles-content {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.perfil-detalle-item {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.detalle-label {
-  font-weight: 600;
-  color: var(--text-light);
-  font-size: 0.9rem;
-}
-
-.perfil-detalle-item span:not(.detalle-label) {
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-.perfil-servicios-list {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 5px;
-}
-
-.perfil-servicios-list li {
-  background-color: var(--darker-bg);
-  padding: 6px 12px;
-  border-radius: 15px;
-  color: var(--text-light);
-  font-size: 0.85rem;
-  border: 1px solid var(--border-color);
-}
-
-.perfil-contacto-info {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.perfil-contacto-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--text-muted);
-}
-
-.perfil-contacto-icon {
-  color: var(--primary-color);
-  font-size: 1.1rem;
-}
-
-.perfil-redes-sociales {
-  display: flex;
-  gap: 12px;
-}
-
-.red-social-icon {
-  font-size: 1.5rem;
-  transition: transform 0.3s ease;
-}
-
-.red-social-icon:hover {
-  transform: scale(1.15);
-}
-
-.instagram {
-  color: #E1306C;
-}
-
-.twitter {
-  color: #1DA1F2;
-}
-
-.facebook {
-  color: #4267B2;
-}
-
-/* Sección de publicaciones */
-.perfil-publicaciones {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 15px;
-  width: 100%;
-}
-
-.perfil-publicacion-item {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  border: 1px solid var(--border-color);
-  transition: transform 0.3s ease;
-  display: flex;
-  flex-direction: column;
-}
-
-.perfil-publicacion-item:hover {
-  transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-}
-
-.perfil-publicacion-item img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.publicacion-descripcion {
-  padding: 10px;
-  background-color: var(--darker-bg);
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.publicacion-descripcion p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.4;
-  flex: 1;
-}
-
-.btn-contacto-publicacion {
   padding: 6px 12px;
   border-radius: 20px;
-  border: none;
-  cursor: pointer;
-  font-weight: 500;
-  font-size: 0.85rem;
-  background: var(--gradient-primary);
-  color: white;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border-color);
 }
 
-.btn-contacto-publicacion:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+.perfil-badge.disponible {
+  color: var(--verified-color);
+  border-color: rgba(0, 199, 85, 0.3);
 }
 
-/* Sección de acompañantes (para agencias) */
-.perfil-acompanantes {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-}
-
-.perfil-acompanante-card {
-  background-color: var(--dark-card);
-  border-radius: 10px;
-  overflow: hidden;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  padding-bottom: 15px;
-}
-
-.perfil-acompanante-card img {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-}
-
-.perfil-acompanante-card h4 {
-  margin: 10px 0;
+.perfil-badge.ubicacion,
+.perfil-badge.genero,
+.perfil-badge.tarifa {
   color: var(--text-light);
+}
+
+.perfil-description {
+  margin-bottom: 20px;
+}
+
+.perfil-description p {
+  color: var(--text-muted);
+  line-height: 1.7;
   font-size: 1rem;
 }
 
-.perfil-acompanante-card .btn-ver-perfil {
-  margin: 0 auto;
-  display: block;
-  width: fit-content;
+/* Quick Details */
+.perfil-quick-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+  margin-bottom: 20px;
+  padding: 15px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
 }
 
-/* Responsividad */
+.perfil-quick-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.detail-label {
+  font-weight: 600;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.perfil-quick-detail span:not(.detail-label) {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+/* Tags Section */
+.perfil-tags {
+  margin-top: 20px;
+}
+
+.tag-group {
+  margin-bottom: 15px;
+}
+
+.tag-group-title {
+  font-size: 1rem;
+  color: var(--text-light);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.perfil-tag {
+  padding: 8px 12px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  background-color: var(--darker-bg);
+  color: var(--text-light);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+}
+
+.perfil-tag:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+}
+
+.perfil-tag.service-tag {
+  background-color: rgba(253, 94, 83, 0.1);
+  border-color: rgba(253, 94, 83, 0.3);
+}
+
+.perfil-tag.category-tag {
+  background-color: rgba(64, 106, 214, 0.1);
+  border-color: rgba(64, 106, 214, 0.3);
+}
+
+/* Instagram-style Gallery */
+.perfil-gallery-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.perfil-gallery-header h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-light);
+  margin: 0;
+}
+
+.perfil-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 15px;
+  margin-bottom: 50px;
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+  box-shadow: var(--shadow-medium);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.1);
+}
+
+.main-photo-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--primary-color);
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  backdrop-filter: blur(4px);
+}
+
+.no-photos-message {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  background: var(--dark-card);
+  border-radius: 10px;
+  color: var(--text-muted);
+}
+
+/* Photo Modal */
+.photo-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+}
+
+.photo-modal-content {
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.photo-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.3s ease;
+}
+
+.photo-modal-close:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: rotate(90deg);
+}
+
+.photo-modal-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.photo-modal-nav-btn {
+  background: rgba(0, 0, 0, 0.5);
+  border: none;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0 15px;
+}
+
+.photo-modal-nav-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.photo-modal-image-container {
+  max-width: 80vw;
+  max-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.photo-modal-image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.photo-modal-info {
+  margin-top: 15px;
+  text-align: center;
+  color: var(--text-light);
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+}
+
+.photo-count {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-right: 15px;
+}
+
+.photo-description {
+  margin: 10px 0 0;
+  font-size: 1rem;
+}
+
+/* Responsive Design */
 @media (max-width: 768px) {
-  .perfil-container {
-    min-height: calc(100vh - 80px);
-  }
-
-  .perfil-content {
-    padding-top: 20px;
-  }
-
-  .perfil-header {
+  .perfil-header-top {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 20px;
+    padding: 20px 15px;
   }
 
   .perfil-foto {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
   }
 
-  .perfil-name-buttons {
+  .perfil-header-info {
+    width: 100%;
+  }
+
+  .perfil-name-verification {
     flex-direction: column;
+    align-items: center;
     gap: 10px;
   }
 
-  .perfil-contact-icons {
+  .perfil-stats {
     justify-content: center;
   }
 
-  .perfil-tabs {
-    flex-wrap: nowrap;
-    overflow-x: auto;
+  .perfil-contact-buttons {
+    justify-content: center;
   }
 
-  .perfil-publicaciones {
+  .perfil-gallery {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
   }
 
-  .perfil-acompanantes {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  .perfil-quick-details {
+    grid-template-columns: 1fr;
+  }
+
+  .photo-modal-nav-btn {
+    width: 40px;
+    height: 40px;
+    margin: 0 5px;
   }
 }
 
 @media (max-width: 480px) {
-  .perfil-container {
-    min-height: calc(100vh - 100px);
+  .perfil-contact-buttons {
+    flex-direction: column;
+    gap: 10px;
   }
 
-  .perfil-content {
-    padding: 10px;
-    padding-top: 30px;
+  .btn-contact {
+    width: 100%;
   }
 
-  .perfil-name-buttons h1 {
-    font-size: 1.5rem;
+  .perfil-status-badges {
+    flex-direction: column;
+    gap: 8px;
   }
 
-  .perfil-publicaciones {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  .photo-modal-content {
+    width: 95vw;
   }
 
-  .publicacion-descripcion {
-    padding: 8px;
+  .photo-modal-image {
+    max-height: 60vh;
   }
-
-  .publicacion-descripcion p {
-    font-size: 0.85rem;
-  }
-
-  .btn-contacto-publicacion {
-    padding: 5px 10px;
-    font-size: 0.8rem;
-  }
-}
-.perfil-edit-input,
-.perfil-edit-textarea {
-  background-color: var(--darker-bg);
-  border: 1px solid var(--border-color);
-  border-radius: 5px;
-  padding: 8px;
-  color: var(--text-light);
-  width: 100%;
-  font-size: 0.95rem;
-}
-
-.perfil-edit-textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.perfil-foto-upload {
-  margin-top: 10px;
-  background-color: var(--darker-bg);
-  border: 1px solid var(--border-color);
-  color: var(--text-light);
+}/* Fixed Back Button Styles */
+.fixed-back-button-container {
+  position: fixed;
+  top: 15px;
+  left: 15px;
+  z-index: 9999;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 30px;
   padding: 5px;
-  border-radius: 5px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.fixed-back-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.fixed-back-button:hover {
+  background: var(--primary-color-light);
+  transform: translateX(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Add margin-top to ensure content doesn't get hidden */
+.perfil-content {
+  margin-top: 60px;
+  padding: 0 20px;
+}
+
+/* Ensure the content container takes up proper space */
+.perfil-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--dark-bg);
+  width: 100%;
+  position: relative;
 }

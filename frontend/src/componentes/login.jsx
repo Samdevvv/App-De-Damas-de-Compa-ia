@@ -11,7 +11,7 @@ const Login = ({ setMenu, onLoginSuccess }) => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [animated, setAnimated] = useState(false);
+  const [ setAnimated] = useState(false);
 
   useEffect(() => {
     // Activar animación después de un breve retraso

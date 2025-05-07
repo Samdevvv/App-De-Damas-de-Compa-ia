@@ -44,10 +44,12 @@ const ForgetPsw = ({ setMenu }) => {
         title: "Solicitud Enviada",
         message: "Se ha enviado un enlace de recuperación a tu correo electrónico. Por favor, revisa tu bandeja de entrada."
       });
-    } catch (err) {
+    } catch (error) {
+      // Ahora utilizamos el parámetro 'error' en lugar de 'err'
+      console.error("Error al enviar la solicitud:", error);
       setError({
         title: "Error",
-        message: "No se pudo enviar el enlace de recuperación. Por favor, intenta de nuevo más tarde."
+        message: "No se pudo enviar el enlace de recuperación. Por favor, intenta de nuevo más tarde." 
       });
     } finally {
       setLoading(false);

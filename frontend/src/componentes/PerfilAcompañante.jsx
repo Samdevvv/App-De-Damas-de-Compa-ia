@@ -1,279 +1,383 @@
 import React, { useState, useEffect } from 'react';
-import { FaMapMarkerAlt, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaGlobe, FaInstagram, FaTwitter, FaFacebook, FaBuilding, FaCheckCircle, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
+import { 
+  FaMapMarkerAlt, FaCalendarAlt, FaUser, FaEnvelope, FaPhone, FaGlobe, 
+  FaInstagram, FaWhatsapp, FaArrowLeft, FaTimes, FaChevronLeft, FaChevronRight,
+  FaCheckCircle
+} from 'react-icons/fa';
 import '../estilos/PerfilAcompañante.css';
-import '../estilos/Header.css';
-import Header from './Header';
 import defaultProfilePic from '../assets/publicacion.jpg';
 
-const Perfil = ({ userType = "acompanante", userData = {} }) => {
-  const [activeTab, setActiveTab] = useState('publicaciones');
-  const [isOwnProfile, setIsOwnProfile] = useState(false);
+// Notice we're NOT importing Header here to avoid conflicts
 
-  const defaultData = {
-    acompanante: {
-      nombre: "Rosse Tejada",
-      ubicacion: "Republica Dominicana, Santo Domingo",
-      fotoPerfil: defaultProfilePic,
-      edad: 28,
-      genero: "Femenino",
-      descripcion: "Hola, soy Rosse. Me encanta viajar y conocer nuevas culturas. Soy una acompañante profesional con experiencia en eventos sociales y corporativos.",
-      telefono: "+34 612 345 678",
-      email: "rosse@example.com",
-      fechaRegistro: "Enero 2023",
-      servicios: ["Eventos sociales", "Cenas de negocios", "Turismo"],
-      disponibilidad: "Lunes a Sábado",
-      idiomas: ["Español", "Inglés", "Francés"],
-      redes: {
-        instagram: "rosse_tejada",
-        twitter: "rosset",
-        facebook: "rossetejada"
-      },
-      publicaciones: [
-        { imagen: defaultProfilePic, descripcion: "Disfrutando de un evento social en Santo Domingo. ¡Contáctame para más detalles!" },
-        { imagen: defaultProfilePic, descripcion: "Cena de negocios en un restaurante exclusivo. ¿Te gustaría acompañarme?" },
-        { imagen: defaultProfilePic, descripcion: "Explorando la ciudad con un cliente. ¡Una experiencia inolvidable!" },
-        { imagen: defaultProfilePic, descripcion: "Asistiendo a una conferencia internacional. Profesional y elegante." },
-        { imagen: defaultProfilePic, descripcion: "Turismo cultural por la ciudad. ¿Te unes?" },
-        { imagen: defaultProfilePic, descripcion: "Evento de gala benéfica. Una noche para recordar." }
-      ],
-      verificado: true,
-      agenciaVerificadora: "Élite Acompañantes"
-    },
-    agencia: {
-      nombre: "Élite Acompañantes",
-      ubicacion: "Barcelona, España",
-      fotoPerfil: defaultProfilePic,
-      descripcion: "Agencia premium especializada en servicios de acompañamiento para eventos de alto nivel. Contamos con los mejores profesionales del sector.",
-      telefono: "+34 913 456 789",
-      email: "contacto@eliteacompanantes.com",
-      fechaRegistro: "Marzo 2022",
-      servicios: ["Eventos corporativos", "Galas benéficas", "Congresos internacionales"],
-      horarioAtencion: "Lunes a Viernes: 9:00 - 18:00",
-      redes: {
-        instagram: "elite_acompanantes",
-        twitter: "eliteacomp",
-        facebook: "eliteacompanantes"
-      },
-      acompanantes: [
-        { nombre: "Sara López", foto: defaultProfilePic },
-        { nombre: "Carlos Ruiz", foto: defaultProfilePic },
-        { nombre: "Ana Belén", foto: defaultProfilePic }
-      ],
-      publicaciones: [
-        { imagen: defaultProfilePic, descripcion: "Nuestros acompañantes en un evento corporativo de alto nivel." },
-        { imagen: defaultProfilePic, descripcion: "Gala benéfica organizada con nuestros mejores profesionales." },
-        { imagen: defaultProfilePic, descripcion: "Congreso internacional con presencia de Élite Acompañantes." },
-        { imagen: defaultProfilePic, descripcion: "Evento privado con clientes exclusivos." }
-      ],
-      verificado: true,
-      agenciaVerificadora: "Asociación de Agencias Premium"
+const Perfil = ({ profileData = null, onBackClick }) => {
+  const [formattedProfileData, setFormattedProfileData] = useState(null);
+  const [showPhotoModal, setShowPhotoModal] = useState(false);
+  const [selectedPhotoIndex, setSelectedPhotoIndex] = useState(0);
+  
+  console.log("PerfilAcompañante received data:", profileData);
+  console.log("Back function exists:", !!onBackClick);
+  
+  const API_BASE_URL = 'https://localhost:7134/api/Acompanantes';
+
+  // Process the profile data from API
+  useEffect(() => {
+    if (profileData) {
+      const formatData = () => {
+        // Transform API data to match component's expected structure
+        return {
+          nombre: profileData.NombrePerfil || "Sin nombre",
+          ubicacion: `${profileData.Pais || ''}, ${profileData.Ciudad || ''}`,
+          fotoPerfil: profileData.FotoPrincipal 
+            ? `${API_BASE_URL.replace('/api/Acompanantes', '')}${profileData.FotoPrincipal}`
+            : profileData.Fotos && profileData.Fotos.length > 0 
+              ? `${API_BASE_URL.replace('/api/Acompanantes', '')}${profileData.Fotos[0].Url}`
+              : defaultProfilePic,
+          edad: profileData.Edad || 0,
+          genero: profileData.Genero || "No especificado",
+          descripcion: profileData.Descripcion || "Sin descripción",
+          telefono: profileData.Whatsapp || "No disponible",
+          email: profileData.Email || "No disponible",
+          fechaRegistro: "Registrado en la plataforma",
+          servicios: profileData.Servicios ? profileData.Servicios.map(s => s.Nombre) : [],
+          disponibilidad: profileData.Disponibilidad || "No especificado",
+          idiomas: profileData.Idiomas ? profileData.Idiomas.split(',').map(i => i.trim()) : ["No especificado"],
+          tarifaBase: profileData.TarifaBase ? `${profileData.TarifaBase} ${profileData.Moneda || 'USD'}` : "No especificado",
+          categorias: profileData.Categorias ? profileData.Categorias.map(c => c.Nombre) : [],
+          redes: {
+            instagram: profileData.Instagram || "",
+            twitter: "",
+            facebook: ""
+          },
+          fotos: profileData.Fotos ? profileData.Fotos.map((foto, index) => ({
+            id: index,
+            url: `${API_BASE_URL.replace('/api/Acompanantes', '')}${foto.Url}`,
+            descripcion: foto.Descripcion || `Foto ${index + 1}`,
+            esPrincipal: foto.EsPrincipal || false
+          })) : [],
+          verificado: profileData.EstaVerificado || false,
+          agenciaVerificadora: profileData.NombreAgencia || "Sistema",
+          estaDisponible: profileData.EstaDisponible || false,
+          altura: profileData.Altura || "No especificado",
+          peso: profileData.Peso || "No especificado",
+          scoreActividad: profileData.ScoreActividad || "N/A"
+        };
+      };
+      
+      setFormattedProfileData(formatData());
+    }
+  }, [profileData, API_BASE_URL]);
+
+  // Handle forced back action on Escape key
+  useEffect(() => {
+    const handleEscKey = (e) => {
+      if (e.key === 'Escape' && !showPhotoModal && onBackClick) {
+        console.log("Escape key pressed - forcing back");
+        onBackClick();
+      }
+    };
+    
+    window.addEventListener('keydown', handleEscKey);
+    return () => window.removeEventListener('keydown', handleEscKey);
+  }, [showPhotoModal, onBackClick]);
+
+  useEffect(() => {
+    // Lock body scroll when photo modal is open
+    if (showPhotoModal) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [showPhotoModal]);
+
+  // Handle keyboard navigation for photo modal
+  const handleKeyDown = (e) => {
+    if (showPhotoModal && formattedProfileData) {
+      if (e.key === 'Escape') {
+        setShowPhotoModal(false);
+      } else if (e.key === 'ArrowRight') {
+        const totalPhotos = formattedProfileData.fotos.length;
+        setSelectedPhotoIndex((selectedPhotoIndex + 1) % totalPhotos);
+      } else if (e.key === 'ArrowLeft') {
+        const totalPhotos = formattedProfileData.fotos.length;
+        setSelectedPhotoIndex((selectedPhotoIndex - 1 + totalPhotos) % totalPhotos);
+      }
     }
   };
 
-  const profileData = userData.nombre ? userData : defaultData[userType];
-
+  // Add keyboard event listeners
   useEffect(() => {
-    setIsOwnProfile(false);
-  }, []);
+    if (formattedProfileData) {
+      window.addEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+  }, [showPhotoModal, selectedPhotoIndex, formattedProfileData]);
+
+  // Force back function with debugging
+  const forceBack = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    console.log("Back button clicked - forcing back navigation");
+    
+    if (typeof onBackClick === 'function') {
+      onBackClick();
+    } else {
+      console.error("onBackClick is not a function:", onBackClick);
+      alert("Error: No se puede volver a la página principal. Por favor, use el botón atrás del navegador.");
+      // Fallback - try browser back
+      try {
+        window.history.back();
+      } catch (error) {
+        console.error("Failed to navigate back:", error);
+      }
+    }
+  };
+
+  if (!formattedProfileData) {
+    return (
+      <div className="perfil-container">
+        {/* Always show back button even during loading */}
+        <div className="fixed-back-button-container">
+          <button className="fixed-back-button" onClick={forceBack}>
+            <FaArrowLeft /> Volver a la página principal
+          </button>
+        </div>
+        <div className="loading-indicator">Cargando perfil...</div>
+      </div>
+    );
+  }
 
   // Formatear el número de teléfono para el enlace de WhatsApp
-  const whatsappNumber = profileData.telefono ? profileData.telefono.replace(/\D/g, '') : '';
+  const whatsappNumber = formattedProfileData.telefono ? formattedProfileData.telefono.replace(/\D/g, '') : '';
   const whatsappLink = `https://wa.me/${whatsappNumber}`;
+
+  const handlePhotoClick = (index) => {
+    setSelectedPhotoIndex(index);
+    setShowPhotoModal(true);
+  };
+
+  const handleClosePhotoModal = () => {
+    setShowPhotoModal(false);
+  };
+
+  const navigatePhoto = (direction) => {
+    const totalPhotos = formattedProfileData.fotos.length;
+    if (direction === 'next') {
+      setSelectedPhotoIndex((selectedPhotoIndex + 1) % totalPhotos);
+    } else {
+      setSelectedPhotoIndex((selectedPhotoIndex - 1 + totalPhotos) % totalPhotos);
+    }
+  };
 
   return (
     <div className="perfil-container">
-      <Header />
+      {/* Fixed position back button - always visible and on top */}
+      <div className="fixed-back-button-container">
+        <button className="fixed-back-button" onClick={forceBack}>
+          <FaArrowLeft /> Volver a la página principal
+        </button>
+      </div>
+      
+      {/* Photo Modal */}
+      {showPhotoModal && (
+        <div className="photo-modal-overlay" onClick={handleClosePhotoModal}>
+          <div className="photo-modal-content" onClick={e => e.stopPropagation()}>
+            <button className="photo-modal-close" onClick={handleClosePhotoModal}>
+              <FaTimes />
+            </button>
+            
+            <div className="photo-modal-nav">
+              <button 
+                className="photo-modal-nav-btn prev" 
+                onClick={() => navigatePhoto('prev')}
+              >
+                <FaChevronLeft />
+              </button>
+              
+              <div className="photo-modal-image-container">
+                <img 
+                  src={formattedProfileData.fotos[selectedPhotoIndex].url} 
+                  alt={`Foto ${selectedPhotoIndex + 1}`} 
+                  className="photo-modal-image"
+                />
+              </div>
+              
+              <button 
+                className="photo-modal-nav-btn next" 
+                onClick={() => navigatePhoto('next')}
+              >
+                <FaChevronRight />
+              </button>
+            </div>
+            
+            <div className="photo-modal-info">
+              <span className="photo-count">
+                {selectedPhotoIndex + 1} / {formattedProfileData.fotos.length}
+              </span>
+              {formattedProfileData.fotos[selectedPhotoIndex].descripcion && (
+                <p className="photo-description">
+                  {formattedProfileData.fotos[selectedPhotoIndex].descripcion}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
       
       <div className="perfil-content">
-        <div className="perfil-header">
-          <div className="perfil-foto-container">
-            <img 
-              src={profileData.fotoPerfil} 
-              alt={profileData.nombre} 
-              className="perfil-foto"
-            />
+        {/* Profile Header Card - IG Style */}
+        <div className="perfil-header-card">
+          <div className="perfil-header-top">
+            <div className="perfil-foto-container">
+              <img 
+                src={formattedProfileData.fotoPerfil} 
+                alt={formattedProfileData.nombre} 
+                className="perfil-foto"
+              />
+            </div>
+            
+            <div className="perfil-header-info">
+              <div className="perfil-name-verification">
+                <h1>{formattedProfileData.nombre}</h1>
+                <div className="perfil-verification">
+                  <FaCheckCircle className={formattedProfileData.verificado ? "verified-icon" : "unverified-icon"} />
+                  <span>{formattedProfileData.verificado ? "Verificado" : "No Verificado"}</span>
+                </div>
+              </div>
+              
+              <div className="perfil-stats">
+                <div className="perfil-stat-item">
+                  <strong>{formattedProfileData.fotos.length}</strong>
+                  <span>Fotos</span>
+                </div>
+                <div className="perfil-stat-item">
+                  <strong>{formattedProfileData.servicios.length}</strong>
+                  <span>Servicios</span>
+                </div>
+                <div className="perfil-stat-item">
+                  <strong>{formattedProfileData.scoreActividad}</strong>
+                  <span>Actividad</span>
+                </div>
+              </div>
+              
+              <div className="perfil-contact-buttons">
+                <a
+                  href={whatsappLink}
+                  className="btn-contact whatsapp"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <FaWhatsapp /> Contactar
+                </a>
+                
+                {formattedProfileData.redes?.instagram && (
+                  <a
+                    href={`https://instagram.com/${formattedProfileData.redes.instagram}`}
+                    className="btn-contact instagram"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <FaInstagram /> Instagram
+                  </a>
+                )}
+              </div>
+            </div>
           </div>
-          <div className="perfil-info-header">
-            <div className="perfil-name-buttons">
-              <h1>{profileData.nombre}</h1>
-              {isOwnProfile && (
-                <button className="btn-editar-perfil">Editar Perfil</button>
+          
+          <div className="perfil-header-details">
+            <div className="perfil-status-badges">
+              {formattedProfileData.estaDisponible && (
+                <span className="perfil-badge disponible">
+                  <FaCheckCircle /> Disponible ahora
+                </span>
               )}
+              <span className="perfil-badge ubicacion">
+                <FaMapMarkerAlt /> {formattedProfileData.ubicacion}
+              </span>
+              <span className="perfil-badge genero">
+                <FaUser /> {formattedProfileData.genero}, {formattedProfileData.edad} años
+              </span>
+              <span className="perfil-badge tarifa">
+                {formattedProfileData.tarifaBase}
+              </span>
             </div>
-            <div className="perfil-verification">
-              <FaCheckCircle className={profileData.verificado ? "verified-icon" : "unverified-icon"} />
-              <span>{profileData.verificado ? "Perfil Verificado" : "Perfil No Verificado"}</span>
-              {profileData.verificado && profileData.agenciaVerificadora && (
-                <span className="agencia-verificadora"> por {profileData.agenciaVerificadora}</span>
-              )}
+            
+            <div className="perfil-description">
+              <p>{formattedProfileData.descripcion}</p>
             </div>
-            <p className="perfil-ubicacion">
-              <FaMapMarkerAlt /> {profileData.ubicacion}
-            </p>
-            <div className="perfil-contact-icons">
-              {profileData.redes?.instagram && (
-                <a href={`https://instagram.com/${profileData.redes.instagram}`} target="_blank" rel="noopener noreferrer">
-                  <FaInstagram className="contact-icon instagram" />
-                </a>
-              )}
-              {profileData.telefono && (
-                <a href={whatsappLink} target="_blank" rel="noopener noreferrer">
-                  <FaWhatsapp className="contact-icon whatsapp" />
-                </a>
-              )}
-            </div>
-            {userType === "acompanante" && (
-              <div className="perfil-datos-rapidos">
-                <span><FaUser /> {profileData.edad} años</span>
-                <span>{profileData.genero}</span>
-                <span><FaGlobe /> {profileData.idiomas && profileData.idiomas.join(', ')}</span>
+            
+            <div className="perfil-quick-details">
+              <div className="perfil-quick-detail">
+                <span className="detail-label">Idiomas:</span>
+                <span>{formattedProfileData.idiomas.join(', ')}</span>
               </div>
-            )}
-            {userType === "agencia" && (
-              <div className="perfil-datos-rapidos">
-                <span><FaBuilding /> Agencia</span>
-                <span><FaCalendarAlt /> Desde {profileData.fechaRegistro}</span>
+              
+              <div className="perfil-quick-detail">
+                <span className="detail-label">Disponibilidad:</span>
+                <span>{formattedProfileData.disponibilidad}</span>
               </div>
-            )}
+              
+              {formattedProfileData.altura !== "No especificado" && (
+                <div className="perfil-quick-detail">
+                  <span className="detail-label">Altura:</span>
+                  <span>{formattedProfileData.altura} cm</span>
+                </div>
+              )}
+              
+              {formattedProfileData.peso !== "No especificado" && (
+                <div className="perfil-quick-detail">
+                  <span className="detail-label">Peso:</span>
+                  <span>{formattedProfileData.peso} kg</span>
+                </div>
+              )}
+            </div>
+            
+            <div className="perfil-tags">
+              {formattedProfileData.servicios.length > 0 && (
+                <div className="tag-group">
+                  <h4 className="tag-group-title">Servicios:</h4>
+                  <div className="tag-container">
+                    {formattedProfileData.servicios.map((servicio, index) => (
+                      <span key={index} className="perfil-tag service-tag">{servicio}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              {formattedProfileData.categorias.length > 0 && (
+                <div className="tag-group">
+                  <h4 className="tag-group-title">Categorías:</h4>
+                  <div className="tag-container">
+                    {formattedProfileData.categorias.map((categoria, index) => (
+                      <span key={index} className="perfil-tag category-tag">{categoria}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
         
-        <div className="perfil-tabs">
-          {(userType === "acompanante" || userType === "agencia") && (
-            <button 
-              className={`perfil-tab ${activeTab === 'publicaciones' ? 'active' : ''}`}
-              onClick={() => setActiveTab('publicaciones')}
-            >
-              Publicaciones
-            </button>
-          )}
-          <button 
-            className={`perfil-tab ${activeTab === 'informacion' ? 'active' : ''}`}
-            onClick={() => setActiveTab('informacion')}
-          >
-            Información
-          </button>
-          {userType === "agencia" && (
-            <button 
-              className={`perfil-tab ${activeTab === 'acompanantes' ? 'active' : ''}`}
-              onClick={() => setActiveTab('acompanantes')}
-            >
-              Acompañantes
-            </button>
-          )}
+        {/* Photos Grid - Instagram Style */}
+        <div className="perfil-gallery-header">
+          <h2>Galería de Fotos</h2>
         </div>
         
-        <div className="perfil-tab-content">
-          {(userType === "acompanante" || userType === "agencia") && activeTab === 'publicaciones' && (
-            <div className="perfil-publicaciones">
-              {profileData.publicaciones && profileData.publicaciones.map((publicacion, index) => (
-                <div className="perfil-publicacion-item" key={index}>
-                  <img src={publicacion.imagen} alt={`Publicación ${index + 1}`} />
-                  <div className="publicacion-descripcion">
-                    <p>{publicacion.descripcion}</p>
-                    <button className="btn-contacto-publicacion">
-                      <FaPhoneAlt /> Contactar
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-          
-          {activeTab === 'informacion' && (
-            <div className="perfil-informacion">
-              <div className="perfil-seccion perfil-sobre-mi">
-                <h3>Sobre {userType === "agencia" ? "Nosotros" : "Mí"}</h3>
-                <p>{profileData.descripcion}</p>
+        <div className="perfil-gallery">
+          {formattedProfileData.fotos.length > 0 ? (
+            formattedProfileData.fotos.map((foto, index) => (
+              <div className="gallery-item" key={index} onClick={() => handlePhotoClick(index)}>
+                <img src={foto.url} alt={`Foto ${index + 1}`} />
+                {foto.esPrincipal && <span className="main-photo-badge">Principal</span>}
               </div>
-              
-              {(userType === "acompanante" || userType === "agencia") && (
-                <div className="perfil-seccion perfil-detalles">
-                  <h3>Detalles</h3>
-                  <div className="perfil-detalles-content">
-                    {(userType === "acompanante") && (
-                      <>
-                        <div className="perfil-detalle-item">
-                          <span className="detalle-label">Disponibilidad:</span>
-                          <span>{profileData.disponibilidad}</span>
-                        </div>
-                        <div className="perfil-detalle-item">
-                          <span className="detalle-label">Idiomas:</span>
-                          <span>{profileData.idiomas && profileData.idiomas.join(', ')}</span>
-                        </div>
-                      </>
-                    )}
-                    {userType === "agencia" && (
-                      <div className="perfil-detalle-item">
-                        <span className="detalle-label">Horario de Atención:</span>
-                        <span>{profileData.horarioAtencion}</span>
-                      </div>
-                    )}
-                    <div className="perfil-detalle-item">
-                      <span className="detalle-label">Servicios:</span>
-                      <ul className="perfil-servicios-list">
-                        {profileData.servicios && profileData.servicios.map((servicio, index) => (
-                          <li key={index}>{servicio}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              )}
-              
-              <div className="perfil-seccion perfil-contacto">
-                <h3>Información de Contacto</h3>
-                <div className="perfil-contacto-info">
-                  {profileData.email && (
-                    <div className="perfil-contacto-item">
-                      <FaEnvelope className="perfil-contacto-icon" />
-                      <span>{profileData.email}</span>
-                    </div>
-                  )}
-                  {profileData.telefono && (
-                    <div className="perfil-contacto-item">
-                      <FaPhone className="perfil-contacto-icon" />
-                      <span>{profileData.telefono}</span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              {(userType === "acompanante" || userType === "agencia") && profileData.redes && (
-                <div className="perfil-seccion perfil-redes">
-                  <h3>Redes Sociales</h3>
-                  <div className="perfil-redes-sociales">
-                    {profileData.redes.instagram && (
-                      <a href={`https://instagram.com/${profileData.redes.instagram}`} target="_blank" rel="noopener noreferrer">
-                        <FaInstagram className="red-social-icon instagram" />
-                      </a>
-                    )}
-                    {profileData.redes.twitter && (
-                      <a href={`https://twitter.com/${profileData.redes.twitter}`} target="_blank" rel="noopener noreferrer">
-                        <FaTwitter className="red-social-icon twitter" />
-                      </a>
-                    )}
-                    {profileData.redes.facebook && (
-                      <a href={`https://facebook.com/${profileData.redes.facebook}`} target="_blank" rel="noopener noreferrer">
-                        <FaFacebook className="red-social-icon facebook" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              )}
-            </div>
-          )}
-          
-          {activeTab === 'acompanantes' && userType === "agencia" && (
-            <div className="perfil-acompanantes">
-              {profileData.acompanantes && profileData.acompanantes.map((acompanante, index) => (
-                <div className="perfil-acompanante-card" key={index}>
-                  <img src={acompanante.foto} alt={acompanante.nombre} />
-                  <h4>{acompanante.nombre}</h4>
-                  <button className="btn-ver-perfil">Ver Perfil</button>
-                </div>
-              ))}
-            </div>
+            ))
+          ) : (
+            <p className="no-photos-message">No hay fotos disponibles</p>
           )}
         </div>
       </div>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import "../estilos/Mainpage.css";
 import "../estilos/AgeVerificationModal.css";
 import heroImage from "../assets/heroimage2.avif";
-import femaleServiceImg from "../assets/scort femenino.webp";
-import transServiceImg from "../assets/scorts trnas.jpg";
+import femaleServiceImg from "../assets/Scorts 1.avif";
+import transServiceImg from "../assets/trans 1.avif";
 import maleServiceImg from "../assets/scort masculino.jpeg";
 import companionServiceImg from "../assets/compañia.jpg";
 import vipServiceImg from "../assets/vip.jpg";
@@ -16,6 +16,18 @@ import { FaSearch, FaTimes } from 'react-icons/fa';
 const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
   const [showFiltersModal, setShowFiltersModal] = useState(false);
   const [showAgeModal, setShowAgeModal] = useState(false);
+  // Estado para controlar el comportamiento responsive en móviles
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  // Detectar cambios en el tamaño de la ventana para ajustar elementos responsivos
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Comprobar si el usuario ya verificó su edad al cargar la página
   useEffect(() => {
@@ -24,6 +36,8 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
       setShowAgeModal(true);
     }
   }, []);
+
+  
 
   // Desactivar scroll e interactividad del body cuando la modal de edad está abierta
   useEffect(() => {
@@ -73,7 +87,7 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
     window.location.href = 'https://Google.com';
   };
 
-  const fireParticles = Array.from({ length: 30 }).map((_, index) => (
+  const fireParticles = Array.from({ length: isMobile ? 15 : 30 }).map((_, index) => (
     <div
       key={index}
       className="fire-particle"
@@ -104,14 +118,14 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
       title: 'Escorts Masculinos',
       description: 'Acompañantes masculinos para satisfacer tus deseos',
       image: maleServiceImg,
-      featured: false
+      featured: true
     },
     {
       id: 'vip',
       title: 'Servicio VIP',
       description: 'Experiencias premium con nuestras/os mejores acompañantes',
       image: vipServiceImg,
-      featured: true
+      featured: false
     },
     {
       id: 'companion',
@@ -133,9 +147,14 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
     return services.filter(service => service.featured);
   };
 
+  // Determinar el número de servicios por fila según el tamaño de pantalla
+  const getServiceGridColumns = () => {
+    return isMobile ? 'repeat(1, 1fr)' : 'repeat(auto-fill, minmax(220px, 1fr))';
+  };
+
   return (
     <div className="page-container">
-      {/* Modal de verificación de edad */}
+      {/* Modal de verificación de edad - Modificado para mejor visualización en móviles */}
       {showAgeModal && (
         <div className="age-modal-overlay">
           <div className="age-modal">
@@ -171,19 +190,19 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         <Header onNavigate={setMenu} userLoggedIn={userLoggedIn} handleLogout={handleLogout} />
         
         <div className="hero-content">
-          <h1>Donde el fuego se sirve sin filtro.</h1>
+          <h1 className='Titulo'>Donde el fuego se sirve sin filtro.</h1>
           <p>Escorts exclusivas, masajes premium y placer VIP en cada rincón de RD.</p>
           <div className="search-container">
             <div className="search-box">
               <input
                 type="text"
-                placeholder="Buscar por ubicación o servicios..."
+                placeholder={isMobile ? "Buscar..." : "Buscar por ubicación o servicios..."}
                 className="search-input"
                 onClick={openFiltersModal}
                 readOnly
               />
               <button className="search-button" onClick={openFiltersModal}>
-                <FaSearch  size={20} />
+                <FaSearch size={isMobile ? 16 : 20} />
               </button>
             </div>
           </div>
@@ -216,13 +235,13 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
-      {/* Todos los servicios */}
+      {/* Todos los servicios - con grid responsive */}
       <section className="all-services-section">
         <div className="container">
           <div className="section-header">
             <h2>Todos los Servicios</h2>
           </div>
-          <div className="services-grid">
+          <div className="services-grid" style={{ gridTemplateColumns: getServiceGridColumns() }}>
             {services.map(service => (
               <div key={service.id} className="service-tile">
                 <div className="service-tile-image">
@@ -249,35 +268,33 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       </section>
 
-      {/* Servicios populares */}
+      {/* Servicios populares - con mejor adaptación móvil */}
       <section className="popular-services">
         <div className="container">
           <div className="section-header">
             <h2>¿Qué estás buscando?</h2>
           </div>
           <div className="services-tags">
+            {/* Reducir texto en móviles para etiquetas largas */}
             <span className="service-tag">Masajes</span>
-            <span className="service-tag">Salidas</span>
-            <span className="service-tag">Escorts Femeninas</span>
-            <span className="service-tag">Trans y Travestis</span>
-            <span className="service-tag">Escorts Masculinos</span>
-            <span className="service-tag">Dominación</span>
-            <span className="service-tag">GFE</span>
-            <span className="service-tag">Parejas</span>
-            <span className="service-tag">Viajes</span>
+            <span className="service-tag">Scorts VIP</span>
+            <span className="service-tag">{isMobile ? "Femeninas" : "Escorts Femeninas"}</span>
+            <span className="service-tag">{isMobile ? "Trans" : "Trans y Travestis"}</span>
+            <span className="service-tag">{isMobile ? "Masculinos" : "Escorts Masculinos"}</span>
+            <span className="service-tag">Compañia</span>
             <span className="service-tag">Eventos</span>
           </div>
         </div>
       </section>
 
-      {/* Modal de filtros */}
+      {/* Modal de filtros - adaptado para pantallas pequeñas */}
       {showFiltersModal && (
         <div className="modal-overlay" onClick={closeFiltersModal}>
           <div className="filters-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h3>Búsqueda avanzada</h3>
               <button className="close-modal" onClick={closeFiltersModal}>
-                <FaTimes size={24} />
+                <FaTimes size={isMobile ? 20 : 24} />
               </button>
             </div>
 
@@ -328,12 +345,12 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
         </div>
       )}
 
-      {/* Footer */}
+      {/* Footer - adaptado para móviles */}
       <footer className="footer">
         <div className="footer-content">
           <div className="footer-main">
             <div className="footer-logo">
-              <img src={logoImage} alt="Telo Fundi" className="footer-logo-image" />
+              <img src={logoImage} alt="Telo Fundi" className="logofooter" />
               <p>La mejor plataforma para encontrar compañía de calidad en toda República Dominicana</p>
             </div>
 
@@ -355,7 +372,6 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
                   <li><a href="#">Publicar Anuncio</a></li>
                   <li><a href="#">Planes Premium</a></li>
                   <li><a href="#">Verificación</a></li>
-                  <li><a href="#">Estadísticas</a></li>
                 </ul>
               </div>
 
@@ -363,7 +379,6 @@ const MainPage = ({ setMenu, userLoggedIn, handleLogout }) => {
                 <h4>Información</h4>
                 <ul>
                   <li><a href="#">Términos y Condiciones</a></li>
-                  <li><a href="#">Política de Privacidad</a></li>
                   <li><a href="#">Cookies</a></li>
                   <li><a href="#">Contacto</a></li>
                 </ul>

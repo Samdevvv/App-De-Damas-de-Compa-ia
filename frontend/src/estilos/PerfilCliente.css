@@ -2,18 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
 /* Variables de colores - Esquema oscuro con naranja oscuro */
-:root {
-  --primary-color: #9f2910; /* Naranja oscuro */
-  --secondary-color: #7d2010; /* Versión más oscura del naranja */
-  --dark-bg: #000000; /* Fondo oscuro */
-  --darker-bg: #0a0a0a; /* Fondo más oscuro para contraste */
-  --dark-card: #111111; /* Color para tarjetas */
-  --text-light: #f0f0f0; /* Texto claro */
-  --text-muted: #aaaaaa; /* Texto con menos énfasis */
-  --border-color: #222222; /* Color de bordes */
-  --gradient-primary: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  --whatsapp-color: #25D366; /* Verde de WhatsApp */
-}
 
 /* Estilos generales */
 * {

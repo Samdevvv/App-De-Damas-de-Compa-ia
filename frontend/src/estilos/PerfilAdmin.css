@@ -1,18 +1,6 @@
 /* Importando fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Variables de colores */
-:root {
-  --primary-color: #9f2910;
-  --secondary-color: #7d2010;
-  --dark-bg: #000000;
-  --darker-bg: #0a0a0a;
-  --dark-card: #111111;
-  --text-light: #f0f0f0;
-  --text-muted: #aaaaaa;
-  --border-color: #222222;
-  --gradient-primary: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-}
 
 /* Estilos generales */
 * {

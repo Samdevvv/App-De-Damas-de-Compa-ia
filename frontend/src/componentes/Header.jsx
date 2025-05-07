@@ -30,18 +30,14 @@ const Header = ({ onNavigate, userLoggedIn = false, handleLogout }) => {
     }
   };
   
-  // Estilo en línea para forzar transparencia
   const headerStyle = {
     background: 'transparent',
     backgroundColor: 'transparent',
     boxShadow: 'none',
     borderBottom: 'none',
-    position: 'absolute',
     zIndex: 1000
   };
   
-  // Estilos para el botón toggle (NUEVO)
-  // No incluimos display: 'flex' aquí para que se maneje desde CSS
   const toggleButtonStyle = {
     alignItems: 'center',
     justifyContent: 'center',
@@ -55,7 +51,6 @@ const Header = ({ onNavigate, userLoggedIn = false, handleLogout }) => {
     outline: '1px solid rgba(255, 255, 255, 0.3)'
   };
   
-  // Estilos para los iconos (NUEVO)
   const iconStyle = {
     color: '#ffffff',
     fill: '#ffffff',
@@ -76,7 +71,7 @@ const Header = ({ onNavigate, userLoggedIn = false, handleLogout }) => {
         />
       </div>
       
-      {/* Botón de hamburguesa para móvil - CON NUEVOS ESTILOS */}
+      {/* Botón de hamburguesa para móvil */}
       <button 
         className="menu-toggle" 
         onClick={toggleMenu}
@@ -121,7 +116,7 @@ const Header = ({ onNavigate, userLoggedIn = false, handleLogout }) => {
                 href="#" 
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavigation('agencias');
+                  handleNavigation('listadoAgencias'); // Cambiado de 'agencias' a 'listadoAgencias'
                 }}
               >
                 Agencias
@@ -136,6 +131,17 @@ const Header = ({ onNavigate, userLoggedIn = false, handleLogout }) => {
                 }}
               >
                 Sobre Nosotros
+              </a>
+            </li>
+            <li>
+              <a 
+                href="#" 
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigation('terminos');
+                }}
+              >
+                Términos y Condiciones
               </a>
             </li>
           </ul>

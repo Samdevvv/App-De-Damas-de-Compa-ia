@@ -1,18 +1,7 @@
 /* Importando fuentes */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
 
-/* Variables de colores */
-:root {
-  --primary-color: #9f2910; /* Naranja oscuro */
-  --secondary-color: #7d2010; /* Versión más oscura del naranja */
-  --dark-bg: #444444; /* Fondo oscuro */
-  --text-light: #f0f0f0; /* Texto claro */
-  --text-muted: #aaaaaa; /* Texto con menos énfasis */
-  --border-color: #222222; /* Color de bordes */
-  --gradient-primary: linear-gradient(to right, var(--primary-color), var(--secondary-color));
-  --menu-bg: rgba(0, 0, 0, 0.9); /* Fondo del menú móvil */
-  --menu-hover: rgba(159, 41, 16, 0.15); /* Color hover para menú */
-}
+
 
 /* Reset básico */
 * {
@@ -168,7 +157,7 @@
 }
 
 .signup {
-  background: var(--gradient-primary) !important;
+  background: var(--accent-color) !important;
   color: white;
   box-shadow: 0 4px 15px rgba(159, 41, 16, 0.4);
 }
